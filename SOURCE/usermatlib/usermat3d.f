@@ -218,7 +218,7 @@ c
         return
       endif
 
-      ! Update state variables and stresses
+      ! Обновление state variables и напряжений
       ustatev(1:6) = vars(13:18)   ! e_pl
       ustatev(7:12) = vars(19:24)  ! e_cr
       ustatev(13:18) = vars(25:30) ! X1
