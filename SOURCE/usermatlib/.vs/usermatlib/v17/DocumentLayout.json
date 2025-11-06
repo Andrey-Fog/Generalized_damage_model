@@ -1,7 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "F:\\Dropbox\\GITHUB\\Reprositories\\Generalized_damage_model\\SOURCE\\usermatlib\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B6297C8E-B640-92F3-1074-660B1C6CDD3D}|usermatlib.vfproj|f:\\dropbox\\github\\reprositories\\generalized_damage_model\\source\\usermatlib\\usermat3d.f||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{B6297C8E-B640-92F3-1074-660B1C6CDD3D}|usermatlib.vfproj|solutionrelative:usermat3d.f||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,15 +14,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+              "Name": "ST:1:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:1:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "usermat3d.f",
+              "DocumentMoniker": "F:\\Dropbox\\GITHUB\\Reprositories\\Generalized_damage_model\\SOURCE\\usermatlib\\usermat3d.f",
+              "RelativeDocumentMoniker": "usermat3d.f",
+              "ToolTip": "F:\\Dropbox\\GITHUB\\Reprositories\\Generalized_damage_model\\SOURCE\\usermatlib\\usermat3d.f*",
+              "RelativeToolTip": "usermat3d.f*",
+              "ViewState": "AgIAAN4AAAAAAAAAAAAMwL0AAAAZAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACHSURBVDhPvZPBDcAgCAClPxmtcYoO1ilMR8OnDQlEpT6kTXofNcETRKHWGhQAkNkIEbWgDowxDIJSyjSQufCUWWOn4ylIKcmqkXP2CXiDRQW8qWeTcRkWqQwRwS2wuAVcQl/G6ww4fR6XBfZkxZ2BbfP/l2j5LFh6yhZ\u002BqdqF5c9kmQr8hHADIeBJHT9TZrUAAAAASUVORK5CYIIAAAAAAAAAAAAAAAAAAA==",
+              "WhenOpened": "2025-11-06T13:09:16.733Z",
+              "EditorCaption": ""
             }
           ]
         }
