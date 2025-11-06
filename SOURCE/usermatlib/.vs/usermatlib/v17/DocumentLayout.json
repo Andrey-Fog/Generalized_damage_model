@@ -3,23 +3,27 @@
   "WorkspaceRootPath": "F:\\Dropbox\\GITHUB\\Reprositories\\Generalized_damage_model\\SOURCE\\usermatlib\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{B6297C8E-B640-92F3-1074-660B1C6CDD3D}|usermatlib.vfproj|F:\\Dropbox\\GITHUB\\Reprositories\\Generalized_damage_model\\SOURCE\\usermatlib\\usermat3d.f||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{B6297C8E-B640-92F3-1074-660B1C6CDD3D}|usermatlib.vfproj|solutionrelative:usermat3d.f||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6297C8E-B640-92F3-1074-660B1C6CDD3D}|usermatlib.vfproj|f:\\dropbox\\github\\reprositories\\generalized_damage_model\\source\\usermatlib\\apdl_test_script.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{B6297C8E-B640-92F3-1074-660B1C6CDD3D}|usermatlib.vfproj|solutionrelative:apdl_test_script.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{B6297C8E-B640-92F3-1074-660B1C6CDD3D}|usermatlib.vfproj|f:\\dropbox\\github\\reprositories\\generalized_damage_model\\source\\usermatlib\\readme.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{B6297C8E-B640-92F3-1074-660B1C6CDD3D}|usermatlib.vfproj|solutionrelative:readme.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6297C8E-B640-92F3-1074-660B1C6CDD3D}|usermatlib.vfproj|f:\\dropbox\\github\\reprositories\\generalized_damage_model\\source\\usermatlib\\functions.f90||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{B6297C8E-B640-92F3-1074-660B1C6CDD3D}|usermatlib.vfproj|solutionrelative:functions.f90||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D2C5B8B9-897C-41EE-94E6-6593FA3C19AD}|..\\Jacobi_generator\\Jacobi_generator.pyproj|F:\\Dropbox\\GITHUB\\Reprositories\\Generalized_damage_model\\SOURCE\\Jacobi_generator\\Jacobi_generator.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B6297C8E-B640-92F3-1074-660B1C6CDD3D}|usermatlib.vfproj|F:\\Dropbox\\GITHUB\\Reprositories\\Generalized_damage_model\\SOURCE\\usermatlib\\usermat3d.f||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{B6297C8E-B640-92F3-1074-660B1C6CDD3D}|usermatlib.vfproj|solutionrelative:usermat3d.f||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{B6297C8E-B640-92F3-1074-660B1C6CDD3D}|usermatlib.vfproj|f:\\dropbox\\github\\reprositories\\generalized_damage_model\\source\\usermatlib\\user_mat_residuals.f90||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{B6297C8E-B640-92F3-1074-660B1C6CDD3D}|usermatlib.vfproj|solutionrelative:user_mat_residuals.f90||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B6297C8E-B640-92F3-1074-660B1C6CDD3D}|usermatlib.vfproj|f:\\dropbox\\github\\reprositories\\generalized_damage_model\\source\\usermatlib\\apdl_test_script.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{B6297C8E-B640-92F3-1074-660B1C6CDD3D}|usermatlib.vfproj|solutionrelative:apdl_test_script.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
     }
   ],
   "DocumentGroupContainers": [
@@ -29,7 +33,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 294,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -41,13 +45,39 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "functions.f90",
+              "DocumentMoniker": "F:\\Dropbox\\GITHUB\\Reprositories\\Generalized_damage_model\\SOURCE\\usermatlib\\functions.f90",
+              "RelativeDocumentMoniker": "functions.f90",
+              "ToolTip": "F:\\Dropbox\\GITHUB\\Reprositories\\Generalized_damage_model\\SOURCE\\usermatlib\\functions.f90",
+              "RelativeToolTip": "functions.f90",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAB4AAAAhAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACHSURBVDhPvZPBDcAgCAClPxmtcYoO1ilMR8OnDQlEpT6kTXofNcETRKHWGhQAkNkIEbWgDowxDIJSyjSQufCUWWOn4ylIKcmqkXP2CXiDRQW8qWeTcRkWqQwRwS2wuAVcQl/G6ww4fR6XBfZkxZ2BbfP/l2j5LFh6yhZ\u002BqdqF5c9kmQr8hHADIeBJHT9TZrUAAAAASUVORK5CYIIAAAAAAAAAAAAAAAAAAA==",
+              "WhenOpened": "2025-11-06T18:19:49.8Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "usermat3d.f",
+              "DocumentMoniker": "F:\\Dropbox\\GITHUB\\Reprositories\\Generalized_damage_model\\SOURCE\\usermatlib\\usermat3d.f",
+              "RelativeDocumentMoniker": "usermat3d.f",
+              "ToolTip": "F:\\Dropbox\\GITHUB\\Reprositories\\Generalized_damage_model\\SOURCE\\usermatlib\\usermat3d.f",
+              "RelativeToolTip": "usermat3d.f",
+              "ViewState": "AgIAAMYAAAAAAAAAAAAMwOUAAAAIAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACHSURBVDhPvZPBDcAgCAClPxmtcYoO1ilMR8OnDQlEpT6kTXofNcETRKHWGhQAkNkIEbWgDowxDIJSyjSQufCUWWOn4ylIKcmqkXP2CXiDRQW8qWeTcRkWqQwRwS2wuAVcQl/G6ww4fR6XBfZkxZ2BbfP/l2j5LFh6yhZ\u002BqdqF5c9kmQr8hHADIeBJHT9TZrUAAAAASUVORK5CYIIAAAAAAAAAAAAAAAAAAA==",
+              "WhenOpened": "2025-11-06T13:09:16.733Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "ReadMe.txt",
               "DocumentMoniker": "F:\\Dropbox\\GITHUB\\Reprositories\\Generalized_damage_model\\SOURCE\\usermatlib\\ReadMe.txt",
               "RelativeDocumentMoniker": "ReadMe.txt",
               "ToolTip": "F:\\Dropbox\\GITHUB\\Reprositories\\Generalized_damage_model\\SOURCE\\usermatlib\\ReadMe.txt",
               "RelativeToolTip": "ReadMe.txt",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAATAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
               "WhenOpened": "2025-11-06T18:01:56.496Z",
               "EditorCaption": ""
@@ -55,6 +85,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "APDL_TEST_SCRIPT.txt",
+              "DocumentMoniker": "F:\\Dropbox\\GITHUB\\Reprositories\\Generalized_damage_model\\SOURCE\\usermatlib\\APDL_TEST_SCRIPT.txt",
+              "RelativeDocumentMoniker": "APDL_TEST_SCRIPT.txt",
+              "ToolTip": "F:\\Dropbox\\GITHUB\\Reprositories\\Generalized_damage_model\\SOURCE\\usermatlib\\APDL_TEST_SCRIPT.txt",
+              "RelativeToolTip": "APDL_TEST_SCRIPT.txt",
+              "ViewState": "AgIAABcAAAAAAAAAAAAQwEgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2025-11-06T14:00:33.037Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "Jacobi_generator.py",
               "DocumentMoniker": "F:\\Dropbox\\GITHUB\\Reprositories\\Generalized_damage_model\\SOURCE\\Jacobi_generator\\Jacobi_generator.py",
               "RelativeDocumentMoniker": "..\\Jacobi_generator\\Jacobi_generator.py",
@@ -67,7 +110,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "user_mat_residuals.f90",
               "DocumentMoniker": "F:\\Dropbox\\GITHUB\\Reprositories\\Generalized_damage_model\\SOURCE\\usermatlib\\user_mat_residuals.f90",
               "RelativeDocumentMoniker": "user_mat_residuals.f90",
@@ -76,32 +119,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACHSURBVDhPvZPBDcAgCAClPxmtcYoO1ilMR8OnDQlEpT6kTXofNcETRKHWGhQAkNkIEbWgDowxDIJSyjSQufCUWWOn4ylIKcmqkXP2CXiDRQW8qWeTcRkWqQwRwS2wuAVcQl/G6ww4fR6XBfZkxZ2BbfP/l2j5LFh6yhZ\u002BqdqF5c9kmQr8hHADIeBJHT9TZrUAAAAASUVORK5CYIIAAAAAAAAAAAAAAAAAAA==",
               "WhenOpened": "2025-11-06T17:55:06.819Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "APDL_TEST_SCRIPT.txt",
-              "DocumentMoniker": "F:\\Dropbox\\GITHUB\\Reprositories\\Generalized_damage_model\\SOURCE\\usermatlib\\APDL_TEST_SCRIPT.txt",
-              "RelativeDocumentMoniker": "APDL_TEST_SCRIPT.txt",
-              "ToolTip": "F:\\Dropbox\\GITHUB\\Reprositories\\Generalized_damage_model\\SOURCE\\usermatlib\\APDL_TEST_SCRIPT.txt",
-              "RelativeToolTip": "APDL_TEST_SCRIPT.txt",
-              "ViewState": "AgIAACMAAAAAAAAAAAAcwEYAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2025-11-06T14:00:33.037Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "usermat3d.f",
-              "DocumentMoniker": "F:\\Dropbox\\GITHUB\\Reprositories\\Generalized_damage_model\\SOURCE\\usermatlib\\usermat3d.f",
-              "RelativeDocumentMoniker": "usermat3d.f",
-              "ToolTip": "F:\\Dropbox\\GITHUB\\Reprositories\\Generalized_damage_model\\SOURCE\\usermatlib\\usermat3d.f",
-              "RelativeToolTip": "usermat3d.f",
-              "ViewState": "AgIAAFcAAAAAAAAAAAAmwGUAAAAAAAAAAAAAAA==",
-              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACHSURBVDhPvZPBDcAgCAClPxmtcYoO1ilMR8OnDQlEpT6kTXofNcETRKHWGhQAkNkIEbWgDowxDIJSyjSQufCUWWOn4ylIKcmqkXP2CXiDRQW8qWeTcRkWqQwRwS2wuAVcQl/G6ww4fR6XBfZkxZ2BbfP/l2j5LFh6yhZ\u002BqdqF5c9kmQr8hHADIeBJHT9TZrUAAAAASUVORK5CYIIAAAAAAAAAAAAAAAAAAA==",
-              "WhenOpened": "2025-11-06T13:09:16.733Z",
               "EditorCaption": ""
             }
           ]

@@ -54,16 +54,25 @@
 		<Filter Name="Header Files" Filter="fi;fd"/>
 		<Filter Name="Resource Files" Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"/>
 		<Filter Name="Source Files" Filter="f90;for;f;fpp;ftn;def;odl;idl">
-			<File RelativePath=".\user_mat_jacobian.f90"/>
-			<File RelativePath=".\user_mat_residuals.f90"/>
-			<File RelativePath=".\usermat.F"/>
-			<File RelativePath=".\usermat3d.f"/>
-			<File RelativePath=".\usermatpd.F"/>
-			<File RelativePath=".\usermatps.F"/>
+			<File RelativePath=".\functions.f90">
+			</File>
+			<File RelativePath=".\user_mat_jacobian.f90">
+			</File>
+			<File RelativePath=".\user_mat_residuals.f90">
+			</File>
+			<File RelativePath=".\usermat.F">
+			</File>
+			<File RelativePath=".\usermat3d.f">
+			</File>
+			<File RelativePath=".\usermatpd.F">
+			</File>
+			<File RelativePath=".\usermatps.F">
+			</File>
 		</Filter>
 		<File RelativePath=".\APDL_TEST_SCRIPT.txt">
 		</File>
-		<File RelativePath=".\ReadMe.txt"/>
+		<File RelativePath=".\ReadMe.txt">
+		</File>
 	</Files>
 	<Globals/>
 </VisualStudioProject>

@@ -1,4 +1,7 @@
-﻿System of equations
+﻿Mapping
+
+
+System of equations
 
 Уравнение 1: Упругость
 σ = (1 - D) * C : (ε_total - ε_pl - ε_cr)

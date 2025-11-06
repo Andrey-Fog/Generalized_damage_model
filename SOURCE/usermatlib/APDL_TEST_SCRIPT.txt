@@ -27,6 +27,8 @@ TBDATA,16, 0.7     ! prop(16)- m (isotropic hardening exponent)
 TBDATA,17, 2.0     ! prop(17)- S (plastic damage resistance)
 TBDATA,18, 1.5     ! prop(18)- s (plastic damage exponent)
 TBDATA,19, 2.5     ! prop(19)- k (plastic damage coupling)
+
+TB,STAT,1,1,34,
 !*************************** GEOMETRY
 BLC4,0,0,1,1,1  
 
@@ -53,18 +55,18 @@ SOLVE
 
 
 !*************************** RESULTS
-FINISH 
-/POST1
-*DIM, DSPL, TABLE, STEPS,2,,,,, 
-*do, I, 1,STEPS,1
-	SET,,, ,,, ,I
-	*GET,Par1, NODE, 1, S, EQV
-	DSPL(I,1,1)=Par1
-	*GET,Par2, NODE, 1, EPTO, EQV
-	DSPL(I,2,1)=Par2
-*ENDDO
-DSPL(1,1,1)=0
-DSPL(1,2,1)=0
-PLESOL, S,EQV, 0,1.0 
-*VPLOT,DSPL(1,2,1),DSPL(1,1,1), , , , , , , ,
-/REPLOT
+!FINISH 
+!/POST1
+!*DIM, DSPL, TABLE, STEPS,2,,,,, 
+!*do, I, 1,STEPS,1
+!	SET,,, ,,, ,I
+!	*GET,Par1, NODE, 1, S, EQV
+!	DSPL(I,1,1)=Par1
+!	*GET,Par2, NODE, 1, EPTO, EQV
+!	DSPL(I,2,1)=Par2
+!*ENDDO
+!DSPL(1,1,1)=0
+!DSPL(1,2,1)=0
+!PLESOL, S,EQV, 0,1.0 
+!*VPLOT,DSPL(1,2,1),DSPL(1,1,1), , , , , , , ,
+!/REPLOT

@@ -45,9 +45,6 @@ c     input output arguments
 c     ======================             
 c      stress   (dp,ar(nTesn),io)         stress
 c      ustatev   (dp,ar(nstatev),io)      user state variable
-c            ustatev(1)                     - equivalent plastic strain
-c            ustatev(2) - statev(1+ncomp)   - plastic strain vector
-c            ustatev(nStatev)               - von-Mises stress
 c      sedEl    (dp,sc,io)                elastic work
 c      sedPl    (dp,sc,io)                plastic work
 c      epseq    (dp,sc,io)                equivalent plastic strain
@@ -102,7 +99,8 @@ c*************************************************************************
 
 #include "impcom.inc"
 c
-      EXTERNAL         material_residuals_wrapper, material_jacobian
+      EXTERNAL material_residuals_wrapper, material_jacobian
+      EXTERNAL compute_elastic_tensor, compute_yield_function
       ! Определение входных и выходных параметров (соответствует документации ANSYS)
       integer matId, elemId, kDomIntPt, kLayer, kSectPt,
      &        ldstep, isubst, keycut,
@@ -126,14 +124,17 @@ c
       double precision :: e_total(6), delta_t
       integer i, j, NR_iter,NR_maxiter
       double precision tol, normF
-      logical converged
+      double precision  stress_trial(6), e_el_trial(6), X_total(6)
+      double precision Young, nue ,D_sum_0, sigma_y0, s_eff_trial, 
+     &             e_pl_eqv, K_Iso, m_Iso, phi_pl, norm_s_minus_X
+      logical converged, plastic_loading
 
+      
       ! Инициализация параметров из prop
       params(1) = dTime
       
       ! Преобразование тензоров из Voigt в полные тензоры
-      e_total(1:3) = Strain(1:3) + dStrain(1:3)
-      e_total(4:6) = Strain(4:6) + dStrain(4:6)
+      e_total(1:6) = Strain(1:6) + dStrain(1:6)
       params(2:7) = e_total
 
       ! Загрузка начальных состояний из ustatev
@@ -148,22 +149,22 @@ c
       params(41) = ustatev(34)       ! e_cr_eqv_0
 
       ! Материальные константы
-      params(42) = prop(1)  ! Young
-      params(43) = prop(2)  ! nu
-      params(44) = prop(3)  ! sigma_y0
-      params(45) = prop(4)  ! A (creep)
-      params(46) = prop(5)  ! n (creep)
-      params(47) = prop(6)  ! q (creep)
-      params(48) = prop(7)  ! A_cr
-      params(49) = prop(8)  ! r (creep damage)
+      params(42) = prop(1)  ; Young = prop(1) 
+      params(43) = prop(2)  ; nue = prop(2)
+      params(44) = prop(3)  ; sigma_y0  = prop(3) 
+      params(45) = prop(4)  ! A_cr (creep)
+      params(46) = prop(5)  ! n_cr (creep)
+      params(47) = prop(6)  ! q_cr (creep)
+      params(48) = prop(7)  ! A_cr_dmg
+      params(49) = prop(8)  ! r_cr_dmg (creep damage)
       params(50) = prop(9)  ! C1_X
       params(51) = prop(10) ! gamma1_X
       params(52) = prop(11) ! C2_X
       params(53) = prop(12) ! gamma2_X
       params(54) = prop(13) ! C3_X
       params(55) = prop(14) ! gamma3_X
-      params(56) = prop(15) ! K
-      params(57) = prop(16) ! m
+      params(56) = prop(15) ; K_Iso = prop(15)
+      params(57) = prop(16) ; m_Iso = prop(16)
       params(58) = prop(17) ! S
       params(59) = prop(18) ! s
       params(60) = prop(19) ! k
@@ -173,7 +174,7 @@ c
       vars(2) = ustatev(32)   ! D_cr
       vars(3) = 0.0           ! R (начальное значение)
       vars(4) = 0.0           ! dlambda
-      vars(5) = ustatev(33)   ! e_pl_eqv
+      vars(5) = ustatev(33)   ; e_pl_eqv = ustatev(33)
       vars(6) = ustatev(34)   ! e_cr_eqv
       vars(7:12) = stress     ! sigma
       vars(13:18) = ustatev(1:6)  ! e_pl
@@ -186,33 +187,80 @@ c
       NR_maxiter = 50
       tol = 1.0d-8
       converged = .false.
-
-      do NR_iter = 1, NR_maxiter
-        ! Вычисление невязок
-        call material_residuals_wrapper(params, vars, F)
-        
-        ! Проверка сходимости
-        normF = sqrt(sum(F**2))
-        if (normF < tol) then
-          converged = .true.
-          exit
-        endif
-
-        ! Вычисление якобиана
-        call material_jacobian_wrapper(params, vars, Jac)
-
-        ! Решение линейной системы J*dx = -F
-        call solve_linear_system(Jac, F, nvars)
-
-        ! Обновление переменных
-        vars = vars - F  ! F теперь содержит решение dx
-
-        ! Ограничение переменных (например, поврежденность не может быть отрицательной)
-        where (vars(1:2) < 0.0) vars(1:2) = 0.0  ! D_pl, D_cr
-        if (vars(5) < 0.0) vars(5) = 0.0  ! e_pl_eqv
-        if (vars(6) < 0.0) vars(6) = 0.0  ! e_cr_eqv
+      !Young = prop(1)
+      !nue  = prop (2)
+      ! ШАГ 1: Упругое предсказание (elastic predictor)
+      call compute_elastic_tensor(Young, nue, dsdePl)
+       ! trial elastic
+      e_el_trial(1:6) = e_total(1:6) - ustatev(1:6) - ustatev(7:12)
+       ! Напряжение trial
+      stress_trial = 0.0d0
+      do i = 1, 6
+       do j = 1, 6
+        stress_trial(i) = stress_trial(i) + dsdePl(i,j) * e_el_trial(j)
+       enddo
       enddo
+      !Initial damage
 
+      D_sum_0 = ustatev(31) + ustatev(32) - ustatev(31) * ustatev(32)
+      ! Эффективное напряжение trial (учет поврежденности)
+      stress_trial = stress_trial / (1.0d0 - (D_sum_0))
+      ! Девиатор эффективного напряжения trial
+      call compute_deviator(stress_trial, s_eff_trial)
+      ! Суммарные остаточные напряжения
+      X_total(1:6) = ustatev(13:18) + ustatev(19:24) + ustatev(25:30)
+       ! Проверка условия пластичности
+      call compute_yield_function(s_eff_trial, X_total, sigma_y0, 
+     &                e_pl_eqv,
+     &                K_Iso, m_Iso, phi_pl, norm_s_minus_X)
+
+      plastic_loading = (phi_pl > 0.0d0)
+       ! ШАГ 2: Проверка, происходит ли пластическое деформирование
+      if (.not. plastic_loading) then
+        ! УПРУГОЕ ПОВЕДЕНИЕ
+            stress(1:6) = stress_trial(1:6)
+        
+            ! Матрица упругих модулей
+            dsdePl = dsdePl * (1.0d0 - D_sum_0)
+        
+            ! Обновление только деформаций ползучести (если есть ползучесть)
+            if (delta_t > 0.0d0) then
+              !call solve_creep_only(params, ustatev, stress)
+            endif
+        
+            ! Сохранение state variables (только обновление ползучести)
+            ustatev(7:12) = ustatev(7:12)  ! e_cr обновится в solve_creep_only
+            ustatev(34) = ustatev(34)      ! e_cr_eqv обновится в solve_creep_only
+            converged = .true.
+        else
+        ! ПЛАСТИЧЕСКОЕ ПОВЕДЕНИЕ - полное решение системы уравнений
+           
+              do NR_iter = 1, NR_maxiter
+                ! Вычисление невязок
+                call material_residuals_wrapper(params, vars, F)
+        
+                ! Проверка сходимости
+                normF = sqrt(sum(F**2))
+                if (normF < tol) then
+                  converged = .true.
+                  exit
+                endif
+
+                ! Вычисление якобиана
+                call material_jacobian_wrapper(params, vars, Jac)
+
+                ! Решение линейной системы J*dx = -F
+                call solve_linear_system(Jac, F, nvars)
+
+                ! Обновление переменных
+                vars = vars - F  ! F теперь содержит решение dx
+
+                ! Ограничение переменных (например, поврежденность не может быть отрицательной)
+                where (vars(1:2) < 0.0) vars(1:2) = 0.0  ! D_pl, D_cr
+                if (vars(5) < 0.0) vars(5) = 0.0  ! e_pl_eqv
+                if (vars(6) < 0.0) vars(6) = 0.0  ! e_cr_eqv
+              enddo
+      endif
       if (.not. converged) then
         keycut = 1  ! Требовать сокращения шага
         return
