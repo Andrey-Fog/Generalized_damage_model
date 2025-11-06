@@ -7,6 +7,11 @@ Project("{6989167D-11E4-40FE-8C1A-2192A86A7E90}") = "usermatlib", "usermatlib.vf
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Jacobi_generator", "..\Jacobi_generator\Jacobi_generator.pyproj", "{D2C5B8B9-897C-41EE-94E6-6593FA3C19AD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{754FC069-D67B-A9D7-50A1-8D1CA196D8F1}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\README.md = ..\..\README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

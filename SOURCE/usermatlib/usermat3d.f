@@ -102,7 +102,7 @@ c*************************************************************************
 
 #include "impcom.inc"
 c
-
+      EXTERNAL         material_residuals_wrapper, material_jacobian
       ! Определение входных и выходных параметров (соответствует документации ANSYS)
       integer matId, elemId, kDomIntPt, kLayer, kSectPt,
      &        ldstep, isubst, keycut,
@@ -157,10 +157,10 @@ c
       params(48) = prop(7)  ! A_cr
       params(49) = prop(8)  ! r (creep damage)
       params(50) = prop(9)  ! C1_X
-      params(51) = prop(10) ! C2_X
-      params(52) = prop(11) ! C3_X
-      params(53) = prop(12) ! gamma1_X
-      params(54) = prop(13) ! gamma2_X
+      params(51) = prop(10) ! gamma1_X
+      params(52) = prop(11) ! C2_X
+      params(53) = prop(12) ! gamma2_X
+      params(54) = prop(13) ! C3_X
       params(55) = prop(14) ! gamma3_X
       params(56) = prop(15) ! K
       params(57) = prop(16) ! m
@@ -189,7 +189,7 @@ c
 
       do NR_iter = 1, NR_maxiter
         ! Вычисление невязок
-        call material_residuals(params, vars, F)
+        call material_residuals_wrapper(params, vars, F)
         
         ! Проверка сходимости
         normF = sqrt(sum(F**2))
@@ -199,7 +199,7 @@ c
         endif
 
         ! Вычисление якобиана
-        call material_jacobian(params, vars, Jac)
+        call material_jacobian_wrapper(params, vars, Jac)
 
         ! Решение линейной системы J*dx = -F
         call solve_linear_system(Jac, F, nvars)

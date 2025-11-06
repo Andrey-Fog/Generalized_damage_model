@@ -1,4 +1,144 @@
-subroutine material_residuals(par01, par02, par03, par04, par05, par06, &
+subroutine material_residuals_wrapper(params, vars, F)
+    implicit none
+    REAL*8, intent(in) :: params(60)
+    REAL*8, intent(in) :: vars(42)
+    REAL*8, intent(out) :: F(42)
+    REAL*8 :: out_result(42,1)
+     !var_mapping = [
+     !       "Variables (42 total):",
+     !       "01: D_pl (plastic damage)",
+     !       "02: D_cr (creep damage)",
+     !       "03: R (isotropic hardening)",
+     !       "04: dlambda (plastic multiplier)",
+     !       "05: e_pl_eqv (equivalent plastic strain)",
+     !       "06: e_cr_eqv (equivalent creep strain)",
+     !       "07: sigma_1 (stress tensor component 1)",
+     !       "08: sigma_2 (stress tensor component 2)",
+     !       "09: sigma_3 (stress tensor component 3)",
+     !       "10: sigma_4 (stress tensor component 4)",
+     !       "11: sigma_5 (stress tensor component 5)",
+     !       "12: sigma_6 (stress tensor component 6)",
+     !       "13: e_pl_1 (plastic strain tensor component 1)",
+     !       "14: e_pl_2 (plastic strain tensor component 2)",
+     !       "15: e_pl_3 (plastic strain tensor component 3)",
+     !       "16: e_pl_4 (plastic strain tensor component 4)",
+     !       "17: e_pl_5 (plastic strain tensor component 5)",
+     !       "18: e_pl_6 (plastic strain tensor component 6)",
+     !       "19: e_cr_1 (creep strain tensor component 1)",
+     !       "20: e_cr_2 (creep strain tensor component 2)",
+     !       "21: e_cr_3 (creep strain tensor component 3)",
+     !       "22: e_cr_4 (creep strain tensor component 4)",
+     !       "23: e_cr_5 (creep strain tensor component 5)",
+     !       "24: e_cr_6 (creep strain tensor component 6)",
+     !       "25: X1_1 (backstress tensor 1 component 1)",
+     !       "26: X1_2 (backstress tensor 1 component 2)",
+     !       "27: X1_3 (backstress tensor 1 component 3)",
+     !       "28: X1_4 (backstress tensor 1 component 4)",
+     !       "29: X1_5 (backstress tensor 1 component 5)",
+     !       "30: X1_6 (backstress tensor 1 component 6)",
+     !       "31: X2_1 (backstress tensor 2 component 1)",
+     !       "32: X2_2 (backstress tensor 2 component 2)",
+     !       "33: X2_3 (backstress tensor 2 component 3)",
+     !       "34: X2_4 (backstress tensor 2 component 4)",
+     !       "35: X2_5 (backstress tensor 2 component 5)",
+     !       "36: X2_6 (backstress tensor 2 component 6)",
+     !       "37: X3_1 (backstress tensor 3 component 1)",
+     !       "38: X3_2 (backstress tensor 3 component 2)",
+     !       "39: X3_3 (backstress tensor 3 component 3)",
+     !       "40: X3_4 (backstress tensor 3 component 4)",
+     !       "41: X3_5 (backstress tensor 3 component 5)",
+     !       "42: X3_6 (backstress tensor 3 component 6)"
+     !   ]
+     !   
+     !   # Parameter mapping
+     !   param_mapping = [
+     !       "Parameters (60 total):"
+     !       "01: Delta_t (time increment)",
+     !       "02: e_total_1 (total strain tensor component 1)",
+     !       "03: e_total_2 (total strain tensor component 2)",
+     !       "04: e_total_3 (total strain tensor component 3)",
+     !       "05: e_total_4 (total strain tensor component 4)",
+     !       "06: e_total_5 (total strain tensor component 5)",
+     !       "07: e_total_6 (total strain tensor component 6)",
+     !       "08: e_pl_0_1 (initial plastic strain component 1)",
+     !       "09: e_pl_0_2 (initial plastic strain component 2)",
+     !       "10: e_pl_0_3 (initial plastic strain component 3)",
+     !       "11: e_pl_0_4 (initial plastic strain component 4)",
+     !       "12: e_pl_0_5 (initial plastic strain component 5)",
+     !       "13: e_pl_0_6 (initial plastic strain component 6)",
+     !       "14: e_cr_0_1 (initial creep strain component 1)",
+     !       "15: e_cr_0_2 (initial creep strain component 2)",
+     !       "16: e_cr_0_3 (initial creep strain component 3)",
+     !       "17: e_cr_0_4 (initial creep strain component 4)",
+     !       "18: e_cr_0_5 (initial creep strain component 5)",
+     !       "19: e_cr_0_6 (initial creep strain component 6)",
+     !       "20: X1_0_1 (initial backstress 1 component 1)",
+     !       "21: X1_0_2 (initial backstress 1 component 2)",
+     !       "22: X1_0_3 (initial backstress 1 component 3)",
+     !       "23: X1_0_4 (initial backstress 1 component 4)",
+     !       "24: X1_0_5 (initial backstress 1 component 5)",
+     !       "25: X1_0_6 (initial backstress 1 component 6)",
+     !       "26: X2_0_1 (initial backstress 2 component 1)",
+     !       "27: X2_0_2 (initial backstress 2 component 2)",
+     !       "28: X2_0_3 (initial backstress 2 component 3)",
+     !       "29: X2_0_4 (initial backstress 2 component 4)",
+     !       "30: X2_0_5 (initial backstress 2 component 5)",
+     !       "31: X2_0_6 (initial backstress 2 component 6)",
+     !       "32: X3_0_1 (initial backstress 3 component 1)",
+     !       "33: X3_0_2 (initial backstress 3 component 2)",
+     !       "34: X3_0_3 (initial backstress 3 component 3)",
+     !       "35: X3_0_4 (initial backstress 3 component 4)",
+     !       "36: X3_0_5 (initial backstress 3 component 5)",
+     !       "37: X3_0_6 (initial backstress 3 component 6)",
+     !       "38: D_pl_0 (initial plastic damage)",
+     !       "39: D_cr_0 (initial creep damage)",
+     !       "40: e_pl_eqv_0 (initial equivalent plastic strain)",
+     !       "41: e_cr_eqv_0 (initial equivalent creep strain)",
+     !       "42: Young (Young's modulus)",
+     !       "43: nu (Poisson's ratio)",
+     !       "44: sigma_y0 (initial yield stress)",
+     !       "45: A (creep coefficient)",
+     !       "46: n (creep exponent)",
+     !       "47: q (creep exponent)",
+     !       "48: A_cr (creep damage coefficient)",
+     !       "49: r (creep damage exponent)",
+     !       "50: C1_X (kinematic hardening modulus 1)",
+     !       "51: gamma1_X (kinematic hardening parameter 1)",
+     !       "52: C2_X (kinematic hardening modulus 2)",
+     !       "53: gamma2_X (kinematic hardening parameter 2)",
+     !       "54: C3_X (kinematic hardening modulus 3)",
+     !       "55: gamma3_X (kinematic hardening parameter 3)",
+     !       "56: K (isotropic hardening coefficient)",
+     !       "57: m (isotropic hardening exponent)",
+     !       "58: S (damage parameter)",
+     !       "59: s (damage exponent)",
+     !       "60: k (damage exponent)"
+     !   ]
+    ! Вызов оригинальной процедуры с передачей всех параметров по отдельности
+    call material_residuals( &
+        params(1), params(2), params(3), params(4), params(5), params(6), &
+        params(7), params(8), params(9), params(10), params(11), params(12), &
+        params(13), params(14), params(15), params(16), params(17), params(18), &
+        params(19), params(20), params(21), params(22), params(23), params(24), &
+        params(25), params(26), params(27), params(28), params(29), params(30), &
+        params(31), params(32), params(33), params(34), params(35), params(36), &
+        params(37), params(38), params(39), params(40), params(41), params(42), &
+        params(43), params(44), params(45), params(46), params(47), params(48), &
+        params(49), params(50), params(51), params(52), params(53), params(54), &
+        params(55), params(56), params(57), params(58), params(59), params(60), &
+        vars(1), vars(2), vars(3), vars(4), vars(5), vars(6), vars(7), vars(8), &
+        vars(9), vars(10), vars(11), vars(12), vars(13), vars(14), vars(15), &
+        vars(16), vars(17), vars(18), vars(19), vars(20), vars(21), vars(22), &
+        vars(23), vars(24), vars(25), vars(26), vars(27), vars(28), vars(29), &
+        vars(30), vars(31), vars(32), vars(33), vars(34), vars(35), vars(36), &
+        vars(37), vars(38), vars(39), vars(40), vars(41), vars(42), out_result)
+
+    ! Преобразование результата обратно в одномерный массив
+    F = out_result(:,1)
+
+end subroutine material_residuals_wrapper
+    
+    subroutine material_residuals(par01, par02, par03, par04, par05, par06, &
       par07, par08, par09, par10, par11, par12, par13, par14, &
       par15, par16, par17, par18, par19, par20, par21, par22, &
       par23, par24, par25, par26, par27, par28, par29, par30, &

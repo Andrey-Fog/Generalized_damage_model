@@ -1,4 +1,4 @@
-FINISH
+﻿FINISH
 /clear
 STEPS=100
 DDY	=0.005
@@ -6,24 +6,27 @@ DDY	=0.005
 ET,1,SOLID185    
 
 !*************************** MECHANICAL PROPERTIES 
-*SET,YOUNG ,210000  !-Young's molulus   
-*SET,XNUE ,0.3  !-Poisson's ratio   
-*SET,YELDSTR ,744         !-initial yielding strength (MPa) 
-*SET,SHEXP ,0.1         !-power value for nonlinear isotropic hardening power law   
-*SET,NORTB ,6E-10 !-Norton  law B const 
-*SET,NORTN ,2.54  !-power value for Norton  law 
-!***ELASTIC 
-MPTEMP,,,,,,,,  
-MPTEMP,1,0  
-MPDATA,EX,1,,YOUNG  
-MPDATA,PRXY,1,,XNUE 
-!***ISOTROPIC HARDERNING
-TB,NLISO,1,,2,POWER 
-TBDATA,1,YELDSTR,SHEXP  
-!***CREEP   
-TB,CREE,1,1,3,10
-TBTEMP,0
-TBDATA,,NORTB,NORTN,0,,,
+
+TB,USER,1,,19    ! 19 констант материала
+TBDATA, 1, 2.0E5   ! prop(1) - Young's modulus (E) [MPa]
+TBDATA, 2, 0.3     ! prop(2) - Poisson's ratio (ν)
+TBDATA, 3, 800     ! prop(3) - Initial yield stress (σ_y0) [MPa]
+TBDATA, 4, 1.2E-20 ! prop(4) - A (creep coefficient)
+TBDATA, 5, 3.5     ! prop(5) - n (creep exponent)
+TBDATA, 6, -0.2    ! prop(6) - q (creep strain sensitivity)
+TBDATA, 7, 5E-12   ! prop(7) - A_cr (creep damage coefficient)
+TBDATA, 8, 4.0     ! prop(8) - r (creep damage exponent)
+TBDATA, 9, 15000   ! prop(9) - C1_X (Chaboche kinematic hardening)
+TBDATA,10, 200     ! prop(10)- γ1_X (Chaboche dynamic recovery)
+TBDATA,11, 8000    ! prop(11)- C2_X (Chaboche kinematic hardening)
+TBDATA,12, 50      ! prop(12)- γ2_X (Chaboche dynamic recovery)
+TBDATA,13, 1000    ! prop(13)- C3_X (Chaboche kinematic hardening)
+TBDATA,14, 10      ! prop(14)- γ3_X (Chaboche dynamic recovery)
+TBDATA,15, 250     ! prop(15)- K (isotropic hardening coefficient)
+TBDATA,16, 0.7     ! prop(16)- m (isotropic hardening exponent)
+TBDATA,17, 2.0     ! prop(17)- S (plastic damage resistance)
+TBDATA,18, 1.5     ! prop(18)- s (plastic damage exponent)
+TBDATA,19, 2.5     ! prop(19)- k (plastic damage coupling)
 !*************************** GEOMETRY
 BLC4,0,0,1,1,1  
 
