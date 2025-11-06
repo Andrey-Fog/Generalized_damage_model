@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36623.8
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{6989167D-11E4-40FE-8C1A-2192A86A7E90}") = "usermatlib", "usermatlib.vfproj", "{B6297C8E-B640-92F3-1074-660B1C6CDD3D}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Jacobi_generator", "..\Jacobi_generator\Jacobi_generator.pyproj", "{D2C5B8B9-897C-41EE-94E6-6593FA3C19AD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B6297C8E-B640-92F3-1074-660B1C6CDD3D}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{B6297C8E-B640-92F3-1074-660B1C6CDD3D}.Debug|Any CPU.Build.0 = Debug|x64
+		{B6297C8E-B640-92F3-1074-660B1C6CDD3D}.Debug|x64.ActiveCfg = Debug|x64
+		{B6297C8E-B640-92F3-1074-660B1C6CDD3D}.Debug|x64.Build.0 = Debug|x64
+		{B6297C8E-B640-92F3-1074-660B1C6CDD3D}.Debug|x86.ActiveCfg = Debug|Win32
+		{B6297C8E-B640-92F3-1074-660B1C6CDD3D}.Debug|x86.Build.0 = Debug|Win32
+		{B6297C8E-B640-92F3-1074-660B1C6CDD3D}.Release|Any CPU.ActiveCfg = Release|x64
+		{B6297C8E-B640-92F3-1074-660B1C6CDD3D}.Release|Any CPU.Build.0 = Release|x64
+		{B6297C8E-B640-92F3-1074-660B1C6CDD3D}.Release|x64.ActiveCfg = Release|x64
+		{B6297C8E-B640-92F3-1074-660B1C6CDD3D}.Release|x64.Build.0 = Release|x64
+		{B6297C8E-B640-92F3-1074-660B1C6CDD3D}.Release|x86.ActiveCfg = Release|Win32
+		{B6297C8E-B640-92F3-1074-660B1C6CDD3D}.Release|x86.Build.0 = Release|Win32
+		{D2C5B8B9-897C-41EE-94E6-6593FA3C19AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2C5B8B9-897C-41EE-94E6-6593FA3C19AD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D2C5B8B9-897C-41EE-94E6-6593FA3C19AD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D2C5B8B9-897C-41EE-94E6-6593FA3C19AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2C5B8B9-897C-41EE-94E6-6593FA3C19AD}.Release|x64.ActiveCfg = Release|Any CPU
+		{D2C5B8B9-897C-41EE-94E6-6593FA3C19AD}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E332895D-05BF-4595-9CD9-C273F913A58B}
+	EndGlobalSection
+EndGlobal

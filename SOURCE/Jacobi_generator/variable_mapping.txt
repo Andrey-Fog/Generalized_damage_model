@@ -1,0 +1,13 @@
+Variables (42 total):
+01: D_pl (plastic damage)
+02: D_cr (creep damage)
+03: R (isotropic hardening)
+04: dlambda (plastic multiplier)
+05: e_pl_eqv (equivalent plastic strain)
+06: e_cr_eqv (equivalent creep strain)
+07-12: sigma components (stress tensor)
+13-18: e_pl components (plastic strain tensor)
+19-24: e_cr components (creep strain tensor)
+25-30: X1 components (backstress tensor 1)
+31-36: X2 components (backstress tensor 2)
+37-42: X3 components (backstress tensor 3)
