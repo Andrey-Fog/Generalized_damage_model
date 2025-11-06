@@ -421,3 +421,4 @@ FodyWeavers.xsd
 *.msp
 /SOURCE/usermatlib/.vs/usermatlib/v17
 /SOURCE/usermatlib/.vs
+/SOURCE/usermatlib/.vs
