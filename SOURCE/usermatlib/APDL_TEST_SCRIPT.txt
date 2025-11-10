@@ -1,34 +1,41 @@
 ﻿FINISH
 /clear
-STEPS=100
+STEPS=1000
 DDY	=0.005
 /PREP7
 ET,1,SOLID185    
 
 !*************************** MECHANICAL PROPERTIES 
 
-TB,USER,1,,19    ! 19 констант материала
+TB,USER,1,,18    ! 19 констант материала
 TBDATA, 1, 2.0E5   ! prop(1) - Young's modulus (E) [MPa]
 TBDATA, 2, 0.3     ! prop(2) - Poisson's ratio (ν)
-TBDATA, 3, 800     ! prop(3) - Initial yield stress (σ_y0) [MPa]
-TBDATA, 4, 1.2E-20 ! prop(4) - A (creep coefficient)
-TBDATA, 5, 3.5     ! prop(5) - n (creep exponent)
-TBDATA, 6, -0.2    ! prop(6) - q (creep strain sensitivity)
-TBDATA, 7, 5E-12   ! prop(7) - A_cr (creep damage coefficient)
-TBDATA, 8, 4.0     ! prop(8) - r (creep damage exponent)
-TBDATA, 9, 15000   ! prop(9) - C1_X (Chaboche kinematic hardening)
-TBDATA,10, 200     ! prop(10)- γ1_X (Chaboche dynamic recovery)
-TBDATA,11, 8000    ! prop(11)- C2_X (Chaboche kinematic hardening)
-TBDATA,12, 50      ! prop(12)- γ2_X (Chaboche dynamic recovery)
-TBDATA,13, 1000    ! prop(13)- C3_X (Chaboche kinematic hardening)
-TBDATA,14, 10      ! prop(14)- γ3_X (Chaboche dynamic recovery)
-TBDATA,15, 250     ! prop(15)- K (isotropic hardening coefficient)
-TBDATA,16, 0.7     ! prop(16)- m (isotropic hardening exponent)
-TBDATA,17, 2.0     ! prop(17)- S (plastic damage resistance)
-TBDATA,18, 1.5     ! prop(18)- s (plastic damage exponent)
-TBDATA,19, 2.5     ! prop(19)- k (plastic damage coupling)
+TBDATA, 3, 500     ! prop(3) - Initial yield stress (σ_y0) [MPa]
+TBDATA, 4, 300     ! prop(4) - A_iso - коэффициент изотропного упрочнения [MPa]
+TBDATA, 5, 0.5     ! prop(5) - B_iso - показатель изотропного упрочнения
+TBDATA, 6, 1.0E-24 ! prop(6) - A_cr - коэффициент ползучести [1/(MPa^n·s)]
+TBDATA, 7, 3.0     ! prop(7) - B_cr - показатель ползучести
+TBDATA, 8, 15000   ! prop(8) - C1_X - кинематическое упрочнение (Chaboche 1) [MPa]
+TBDATA, 9, 200     ! prop(9) - gamma1_X - параметр насыщения 1
+TBDATA,10, 8000    ! prop(10) - C2_X - кинематическое упрочнение (Chaboche 2) [MPa]
+TBDATA,11, 100     ! prop(11) - gamma2_X - параметр насыщения 2
+TBDATA,12, 2000    ! prop(12) - C3_X - кинематическое упрочнение (Chaboche 3) [MPa]
+TBDATA,13, 10      ! prop(13) - gamma3_X - параметр насыщения 3
+TBDATA,14, 0.5     ! prop(14) - A_lem - коэффициент поврежденности (Lemaitre)
+TBDATA,15, 1.2     ! prop(15) - B_lem - показатель поврежденности (Lemaitre)
+TBDATA,16, 0.8     ! prop(16) - C_lem - параметр поврежденности (Lemaitre)
+TBDATA,17, 2.0E-22 ! prop(17) - A_dmg - коэффициент поврежденности ползучести [1/s]
+TBDATA,18, 4.0     ! prop(18) - B_dmg - показатель поврежденности ползучести
 
-TB,STAT,1,1,34,
+
+TB,STAT,1,1,39,
+TBDATA,1,0,0,0,0,0,0    
+TBDATA,7,0,0,0,0,0,0     
+TBDATA,19,0,0,0,0,0,0    
+TBDATA,25,0,0,0,0,0,0    
+TBDATA,31,0,0,0,0,0,0   
+TBDATA,37,0,0,0
+
 !*************************** GEOMETRY
 BLC4,0,0,1,1,1  
 

@@ -1,442 +1,329 @@
-subroutine material_residuals(par01, par02, par03, par04, par05, par06, &
-      par07, par08, par09, par10, par11, par12, par13, par14, &
-      par15, par16, par17, par18, par19, par20, par21, par22, &
-      par23, par24, par25, par26, par27, par28, par29, par30, &
-      par31, par32, par33, par34, par35, par36, par37, par38, &
-      par39, par40, par41, par42, par43, par44, par45, par46, &
-      par47, par48, par49, par50, par51, par52, par53, par54, &
-      par55, par56, par57, par58, par59, par60, var01, var02, &
-      var03, var04, var05, var06, var07, var08, var09, var10, &
-      var11, var12, var13, var14, var15, var16, var17, var18, &
-      var19, var20, var21, var22, var23, var24, var25, var26, &
-      var27, var28, var29, var30, var31, var32, var33, var34, &
-      var35, var36, var37, var38, var39, var40, var41, var42, &
-      out_2014269512401877206)
+subroutine material_residuals(p01, p02, p03, p04, p05, p06, p07, p08, &
+      p09, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20, &
+      p21, p22, p23, p24, p25, p26, p27, p28, p29, p30, p31, p32, &
+      p33, p34, p35, p36, p37, p38, p39, p40, p41, p42, p43, p44, &
+      p45, p46, p47, p48, p49, p50, p51, p52, p53, p54, p55, p56, &
+      p57, p58, v01, v02, v03, v04, v05, v06, v07, v08, v09, v10, &
+      v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21, v22, &
+      v23, v24, v25, v26, v27, v28, v29, v30, v31, v32, v33, v34, &
+      v35, v36, v37, v38, v39, out_6929325522347253671)
 implicit none
-REAL*8, intent(in) :: par01
-REAL*8, intent(in) :: par02
-REAL*8, intent(in) :: par03
-REAL*8, intent(in) :: par04
-REAL*8, intent(in) :: par05
-REAL*8, intent(in) :: par06
-REAL*8, intent(in) :: par07
-REAL*8, intent(in) :: par08
-REAL*8, intent(in) :: par09
-REAL*8, intent(in) :: par10
-REAL*8, intent(in) :: par11
-REAL*8, intent(in) :: par12
-REAL*8, intent(in) :: par13
-REAL*8, intent(in) :: par14
-REAL*8, intent(in) :: par15
-REAL*8, intent(in) :: par16
-REAL*8, intent(in) :: par17
-REAL*8, intent(in) :: par18
-REAL*8, intent(in) :: par19
-REAL*8, intent(in) :: par20
-REAL*8, intent(in) :: par21
-REAL*8, intent(in) :: par22
-REAL*8, intent(in) :: par23
-REAL*8, intent(in) :: par24
-REAL*8, intent(in) :: par25
-REAL*8, intent(in) :: par26
-REAL*8, intent(in) :: par27
-REAL*8, intent(in) :: par28
-REAL*8, intent(in) :: par29
-REAL*8, intent(in) :: par30
-REAL*8, intent(in) :: par31
-REAL*8, intent(in) :: par32
-REAL*8, intent(in) :: par33
-REAL*8, intent(in) :: par34
-REAL*8, intent(in) :: par35
-REAL*8, intent(in) :: par36
-REAL*8, intent(in) :: par37
-REAL*8, intent(in) :: par38
-REAL*8, intent(in) :: par39
-REAL*8, intent(in) :: par40
-REAL*8, intent(in) :: par41
-REAL*8, intent(in) :: par42
-REAL*8, intent(in) :: par43
-REAL*8, intent(in) :: par44
-REAL*8, intent(in) :: par45
-REAL*8, intent(in) :: par46
-REAL*8, intent(in) :: par47
-REAL*8, intent(in) :: par48
-REAL*8, intent(in) :: par49
-REAL*8, intent(in) :: par50
-REAL*8, intent(in) :: par51
-REAL*8, intent(in) :: par52
-REAL*8, intent(in) :: par53
-REAL*8, intent(in) :: par54
-REAL*8, intent(in) :: par55
-REAL*8, intent(in) :: par56
-REAL*8, intent(in) :: par57
-REAL*8, intent(in) :: par58
-REAL*8, intent(in) :: par59
-REAL*8, intent(in) :: par60
-REAL*8, intent(in) :: var01
-REAL*8, intent(in) :: var02
-REAL*8, intent(in) :: var03
-REAL*8, intent(in) :: var04
-REAL*8, intent(in) :: var05
-REAL*8, intent(in) :: var06
-REAL*8, intent(in) :: var07
-REAL*8, intent(in) :: var08
-REAL*8, intent(in) :: var09
-REAL*8, intent(in) :: var10
-REAL*8, intent(in) :: var11
-REAL*8, intent(in) :: var12
-REAL*8, intent(in) :: var13
-REAL*8, intent(in) :: var14
-REAL*8, intent(in) :: var15
-REAL*8, intent(in) :: var16
-REAL*8, intent(in) :: var17
-REAL*8, intent(in) :: var18
-REAL*8, intent(in) :: var19
-REAL*8, intent(in) :: var20
-REAL*8, intent(in) :: var21
-REAL*8, intent(in) :: var22
-REAL*8, intent(in) :: var23
-REAL*8, intent(in) :: var24
-REAL*8, intent(in) :: var25
-REAL*8, intent(in) :: var26
-REAL*8, intent(in) :: var27
-REAL*8, intent(in) :: var28
-REAL*8, intent(in) :: var29
-REAL*8, intent(in) :: var30
-REAL*8, intent(in) :: var31
-REAL*8, intent(in) :: var32
-REAL*8, intent(in) :: var33
-REAL*8, intent(in) :: var34
-REAL*8, intent(in) :: var35
-REAL*8, intent(in) :: var36
-REAL*8, intent(in) :: var37
-REAL*8, intent(in) :: var38
-REAL*8, intent(in) :: var39
-REAL*8, intent(in) :: var40
-REAL*8, intent(in) :: var41
-REAL*8, intent(in) :: var42
-REAL*8, intent(out), dimension(1:42, 1:1) :: out_2014269512401877206
-out_2014269512401877206(1, 1) = -par42*par43*(par03 - var14 - var20)*( &
-      var01*var02 - var01 - var02 + 1)/((1 - 2*par43)*(par43 + 1)) - &
-      par42*par43*(par04 - var15 - var21)*(var01*var02 - var01 - var02 &
-      + 1)/((1 - 2*par43)*(par43 + 1)) + var07 - (par42*par43/((1 - 2* &
-      par43)*(par43 + 1)) + 2*par42/(2*par43 + 2))*(par02 - var13 - &
-      var19)*(var01*var02 - var01 - var02 + 1)
-out_2014269512401877206(2, 1) = -par42*par43*(par02 - var13 - var19)*( &
-      var01*var02 - var01 - var02 + 1)/((1 - 2*par43)*(par43 + 1)) - &
-      par42*par43*(par04 - var15 - var21)*(var01*var02 - var01 - var02 &
-      + 1)/((1 - 2*par43)*(par43 + 1)) + var08 - (par42*par43/((1 - 2* &
-      par43)*(par43 + 1)) + 2*par42/(2*par43 + 2))*(par03 - var14 - &
-      var20)*(var01*var02 - var01 - var02 + 1)
-out_2014269512401877206(3, 1) = -par42*par43*(par02 - var13 - var19)*( &
-      var01*var02 - var01 - var02 + 1)/((1 - 2*par43)*(par43 + 1)) - &
-      par42*par43*(par03 - var14 - var20)*(var01*var02 - var01 - var02 &
-      + 1)/((1 - 2*par43)*(par43 + 1)) + var09 - (par42*par43/((1 - 2* &
-      par43)*(par43 + 1)) + 2*par42/(2*par43 + 2))*(par04 - var15 - &
-      var21)*(var01*var02 - var01 - var02 + 1)
-out_2014269512401877206(4, 1) = -par42*(par05 - var16 - var22)*(var01* &
-      var02 - var01 - var02 + 1)/(2*par43 + 2) + var10
-out_2014269512401877206(5, 1) = -par42*(par06 - var17 - var23)*(var01* &
-      var02 - var01 - var02 + 1)/(2*par43 + 2) + var11
-out_2014269512401877206(6, 1) = -par42*(par07 - var18 - var24)*(var01* &
-      var02 - var01 - var02 + 1)/(2*par43 + 2) + var12
-out_2014269512401877206(7, 1) = -par44 - var03 + sqrt(3*(var10/(var01* &
-      var02 - var01 - var02 + 1) - var28 - var34 - var40)**2 + 3*(var11 &
-      /(var01*var02 - var01 - var02 + 1) - var29 - var35 - var41)**2 + &
-      3*(var12/(var01*var02 - var01 - var02 + 1) - var30 - var36 - &
-      var42)**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*var07/(var01*var02 - &
-      var01 - var02 + 1) - 1.0d0/3.0d0*var08/(var01*var02 - var01 - &
-      var02 + 1) + (2.0d0/3.0d0)*var09/(var01*var02 - var01 - var02 + 1 &
-      ) - var27 - var33 - var39)**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*var07 &
-      /(var01*var02 - var01 - var02 + 1) + (2.0d0/3.0d0)*var08/(var01* &
-      var02 - var01 - var02 + 1) - 1.0d0/3.0d0*var09/(var01*var02 - &
-      var01 - var02 + 1) - var26 - var32 - var38)**2 + (3.0d0/2.0d0)*(( &
-      2.0d0/3.0d0)*var07/(var01*var02 - var01 - var02 + 1) - 1.0d0/ &
-      3.0d0*var08/(var01*var02 - var01 - var02 + 1) - 1.0d0/3.0d0*var09 &
-      /(var01*var02 - var01 - var02 + 1) - var25 - var31 - var37)**2)
-out_2014269512401877206(8, 1) = -1.5d0*par01*par45*var06**par47*((2.0d0/ &
-      3.0d0)*var07/(var01*var02 - var01 - var02 + 1) - 1.0d0/3.0d0* &
-      var08/(var01*var02 - var01 - var02 + 1) - 1.0d0/3.0d0*var09/( &
-      var01*var02 - var01 - var02 + 1))*(3*var10**2/(var01*var02 - &
-      var01 - var02 + 1)**2 + 3*var11**2/(var01*var02 - var01 - var02 + &
-      1)**2 + 3*var12**2/(var01*var02 - var01 - var02 + 1)**2 + (3.0d0/ &
-      2.0d0)*(-1.0d0/3.0d0*var07/(var01*var02 - var01 - var02 + 1) - &
-      1.0d0/3.0d0*var08/(var01*var02 - var01 - var02 + 1) + (2.0d0/ &
-      3.0d0)*var09/(var01*var02 - var01 - var02 + 1))**2 + (3.0d0/2.0d0 &
-      )*(-1.0d0/3.0d0*var07/(var01*var02 - var01 - var02 + 1) + (2.0d0/ &
-      3.0d0)*var08/(var01*var02 - var01 - var02 + 1) - 1.0d0/3.0d0* &
-      var09/(var01*var02 - var01 - var02 + 1))**2 + (3.0d0/2.0d0)*(( &
-      2.0d0/3.0d0)*var07/(var01*var02 - var01 - var02 + 1) - 1.0d0/ &
-      3.0d0*var08/(var01*var02 - var01 - var02 + 1) - 1.0d0/3.0d0*var09 &
-      /(var01*var02 - var01 - var02 + 1))**2)**((1.0d0/2.0d0)*par46 - &
-      1.0d0/2.0d0) - par14 + var19
-out_2014269512401877206(9, 1) = -1.5d0*par01*par45*var06**par47*(-1.0d0/ &
-      3.0d0*var07/(var01*var02 - var01 - var02 + 1) + (2.0d0/3.0d0)* &
-      var08/(var01*var02 - var01 - var02 + 1) - 1.0d0/3.0d0*var09/( &
-      var01*var02 - var01 - var02 + 1))*(3*var10**2/(var01*var02 - &
-      var01 - var02 + 1)**2 + 3*var11**2/(var01*var02 - var01 - var02 + &
-      1)**2 + 3*var12**2/(var01*var02 - var01 - var02 + 1)**2 + (3.0d0/ &
-      2.0d0)*(-1.0d0/3.0d0*var07/(var01*var02 - var01 - var02 + 1) - &
-      1.0d0/3.0d0*var08/(var01*var02 - var01 - var02 + 1) + (2.0d0/ &
-      3.0d0)*var09/(var01*var02 - var01 - var02 + 1))**2 + (3.0d0/2.0d0 &
-      )*(-1.0d0/3.0d0*var07/(var01*var02 - var01 - var02 + 1) + (2.0d0/ &
-      3.0d0)*var08/(var01*var02 - var01 - var02 + 1) - 1.0d0/3.0d0* &
-      var09/(var01*var02 - var01 - var02 + 1))**2 + (3.0d0/2.0d0)*(( &
-      2.0d0/3.0d0)*var07/(var01*var02 - var01 - var02 + 1) - 1.0d0/ &
-      3.0d0*var08/(var01*var02 - var01 - var02 + 1) - 1.0d0/3.0d0*var09 &
-      /(var01*var02 - var01 - var02 + 1))**2)**((1.0d0/2.0d0)*par46 - &
-      1.0d0/2.0d0) - par15 + var20
-out_2014269512401877206(10, 1) = -1.5d0*par01*par45*var06**par47*(-1.0d0 &
-      /3.0d0*var07/(var01*var02 - var01 - var02 + 1) - 1.0d0/3.0d0* &
-      var08/(var01*var02 - var01 - var02 + 1) + (2.0d0/3.0d0)*var09/( &
-      var01*var02 - var01 - var02 + 1))*(3*var10**2/(var01*var02 - &
-      var01 - var02 + 1)**2 + 3*var11**2/(var01*var02 - var01 - var02 + &
-      1)**2 + 3*var12**2/(var01*var02 - var01 - var02 + 1)**2 + (3.0d0/ &
-      2.0d0)*(-1.0d0/3.0d0*var07/(var01*var02 - var01 - var02 + 1) - &
-      1.0d0/3.0d0*var08/(var01*var02 - var01 - var02 + 1) + (2.0d0/ &
-      3.0d0)*var09/(var01*var02 - var01 - var02 + 1))**2 + (3.0d0/2.0d0 &
-      )*(-1.0d0/3.0d0*var07/(var01*var02 - var01 - var02 + 1) + (2.0d0/ &
-      3.0d0)*var08/(var01*var02 - var01 - var02 + 1) - 1.0d0/3.0d0* &
-      var09/(var01*var02 - var01 - var02 + 1))**2 + (3.0d0/2.0d0)*(( &
-      2.0d0/3.0d0)*var07/(var01*var02 - var01 - var02 + 1) - 1.0d0/ &
-      3.0d0*var08/(var01*var02 - var01 - var02 + 1) - 1.0d0/3.0d0*var09 &
-      /(var01*var02 - var01 - var02 + 1))**2)**((1.0d0/2.0d0)*par46 - &
-      1.0d0/2.0d0) - par16 + var21
-out_2014269512401877206(11, 1) = -1.5d0*par01*par45*var06**par47*var10*( &
-      3*var10**2/(var01*var02 - var01 - var02 + 1)**2 + 3*var11**2/( &
-      var01*var02 - var01 - var02 + 1)**2 + 3*var12**2/(var01*var02 - &
-      var01 - var02 + 1)**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*var07/(var01* &
-      var02 - var01 - var02 + 1) - 1.0d0/3.0d0*var08/(var01*var02 - &
-      var01 - var02 + 1) + (2.0d0/3.0d0)*var09/(var01*var02 - var01 - &
-      var02 + 1))**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*var07/(var01*var02 - &
-      var01 - var02 + 1) + (2.0d0/3.0d0)*var08/(var01*var02 - var01 - &
-      var02 + 1) - 1.0d0/3.0d0*var09/(var01*var02 - var01 - var02 + 1)) &
-      **2 + (3.0d0/2.0d0)*((2.0d0/3.0d0)*var07/(var01*var02 - var01 - &
-      var02 + 1) - 1.0d0/3.0d0*var08/(var01*var02 - var01 - var02 + 1) &
-      - 1.0d0/3.0d0*var09/(var01*var02 - var01 - var02 + 1))**2)**(( &
-      1.0d0/2.0d0)*par46 - 1.0d0/2.0d0)/(var01*var02 - var01 - var02 + &
-      1) - par17 + var22
-out_2014269512401877206(12, 1) = -1.5d0*par01*par45*var06**par47*var11*( &
-      3*var10**2/(var01*var02 - var01 - var02 + 1)**2 + 3*var11**2/( &
-      var01*var02 - var01 - var02 + 1)**2 + 3*var12**2/(var01*var02 - &
-      var01 - var02 + 1)**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*var07/(var01* &
-      var02 - var01 - var02 + 1) - 1.0d0/3.0d0*var08/(var01*var02 - &
-      var01 - var02 + 1) + (2.0d0/3.0d0)*var09/(var01*var02 - var01 - &
-      var02 + 1))**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*var07/(var01*var02 - &
-      var01 - var02 + 1) + (2.0d0/3.0d0)*var08/(var01*var02 - var01 - &
-      var02 + 1) - 1.0d0/3.0d0*var09/(var01*var02 - var01 - var02 + 1)) &
-      **2 + (3.0d0/2.0d0)*((2.0d0/3.0d0)*var07/(var01*var02 - var01 - &
-      var02 + 1) - 1.0d0/3.0d0*var08/(var01*var02 - var01 - var02 + 1) &
-      - 1.0d0/3.0d0*var09/(var01*var02 - var01 - var02 + 1))**2)**(( &
-      1.0d0/2.0d0)*par46 - 1.0d0/2.0d0)/(var01*var02 - var01 - var02 + &
-      1) - par18 + var23
-out_2014269512401877206(13, 1) = -1.5d0*par01*par45*var06**par47*var12*( &
-      3*var10**2/(var01*var02 - var01 - var02 + 1)**2 + 3*var11**2/( &
-      var01*var02 - var01 - var02 + 1)**2 + 3*var12**2/(var01*var02 - &
-      var01 - var02 + 1)**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*var07/(var01* &
-      var02 - var01 - var02 + 1) - 1.0d0/3.0d0*var08/(var01*var02 - &
-      var01 - var02 + 1) + (2.0d0/3.0d0)*var09/(var01*var02 - var01 - &
-      var02 + 1))**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*var07/(var01*var02 - &
-      var01 - var02 + 1) + (2.0d0/3.0d0)*var08/(var01*var02 - var01 - &
-      var02 + 1) - 1.0d0/3.0d0*var09/(var01*var02 - var01 - var02 + 1)) &
-      **2 + (3.0d0/2.0d0)*((2.0d0/3.0d0)*var07/(var01*var02 - var01 - &
-      var02 + 1) - 1.0d0/3.0d0*var08/(var01*var02 - var01 - var02 + 1) &
-      - 1.0d0/3.0d0*var09/(var01*var02 - var01 - var02 + 1))**2)**(( &
-      1.0d0/2.0d0)*par46 - 1.0d0/2.0d0)/(var01*var02 - var01 - var02 + &
-      1) - par19 + var24
-out_2014269512401877206(14, 1) = -par01*par45*var06**par47*(3*var10**2/( &
-      var01*var02 - var01 - var02 + 1)**2 + 3*var11**2/(var01*var02 - &
-      var01 - var02 + 1)**2 + 3*var12**2/(var01*var02 - var01 - var02 + &
-      1)**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*var07/(var01*var02 - var01 - &
-      var02 + 1) - 1.0d0/3.0d0*var08/(var01*var02 - var01 - var02 + 1) &
-      + (2.0d0/3.0d0)*var09/(var01*var02 - var01 - var02 + 1))**2 + ( &
-      3.0d0/2.0d0)*(-1.0d0/3.0d0*var07/(var01*var02 - var01 - var02 + 1 &
-      ) + (2.0d0/3.0d0)*var08/(var01*var02 - var01 - var02 + 1) - 1.0d0 &
-      /3.0d0*var09/(var01*var02 - var01 - var02 + 1))**2 + (3.0d0/2.0d0 &
-      )*((2.0d0/3.0d0)*var07/(var01*var02 - var01 - var02 + 1) - 1.0d0/ &
-      3.0d0*var08/(var01*var02 - var01 - var02 + 1) - 1.0d0/3.0d0*var09 &
-      /(var01*var02 - var01 - var02 + 1))**2)**((1.0d0/2.0d0)*par46) - &
-      par41 + var06
-out_2014269512401877206(15, 1) = -par38 + var01 - ((1.0d0/2.0d0)*( &
-      0.666666666666667d0*par43 + (3 - 6*par43)*((1.0d0/3.0d0)*var07/( &
-      var01*var02 - var01 - var02 + 1) + (1.0d0/3.0d0)*var08/(var01* &
-      var02 - var01 - var02 + 1) + (1.0d0/3.0d0)*var09/(var01*var02 - &
-      var01 - var02 + 1))**2/(3*var10**2/(var01*var02 - var01 - var02 + &
-      1)**2 + 3*var11**2/(var01*var02 - var01 - var02 + 1)**2 + 3*var12 &
-      **2/(var01*var02 - var01 - var02 + 1)**2 + (3.0d0/2.0d0)*(-1.0d0/ &
-      3.0d0*var07/(var01*var02 - var01 - var02 + 1) - 1.0d0/3.0d0*var08 &
-      /(var01*var02 - var01 - var02 + 1) + (2.0d0/3.0d0)*var09/(var01* &
-      var02 - var01 - var02 + 1))**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0* &
-      var07/(var01*var02 - var01 - var02 + 1) + (2.0d0/3.0d0)*var08/( &
-      var01*var02 - var01 - var02 + 1) - 1.0d0/3.0d0*var09/(var01*var02 &
-      - var01 - var02 + 1))**2 + (3.0d0/2.0d0)*((2.0d0/3.0d0)*var07/( &
-      var01*var02 - var01 - var02 + 1) - 1.0d0/3.0d0*var08/(var01*var02 &
-      - var01 - var02 + 1) - 1.0d0/3.0d0*var09/(var01*var02 - var01 - &
-      var02 + 1))**2) + 0.666666666666667d0)*(3*var10**2/(var01*var02 - &
-      var01 - var02 + 1)**2 + 3*var11**2/(var01*var02 - var01 - var02 + &
-      1)**2 + 3*var12**2/(var01*var02 - var01 - var02 + 1)**2 + (3.0d0/ &
-      2.0d0)*(-1.0d0/3.0d0*var07/(var01*var02 - var01 - var02 + 1) - &
-      1.0d0/3.0d0*var08/(var01*var02 - var01 - var02 + 1) + (2.0d0/ &
-      3.0d0)*var09/(var01*var02 - var01 - var02 + 1))**2 + (3.0d0/2.0d0 &
-      )*(-1.0d0/3.0d0*var07/(var01*var02 - var01 - var02 + 1) + (2.0d0/ &
-      3.0d0)*var08/(var01*var02 - var01 - var02 + 1) - 1.0d0/3.0d0* &
-      var09/(var01*var02 - var01 - var02 + 1))**2 + (3.0d0/2.0d0)*(( &
-      2.0d0/3.0d0)*var07/(var01*var02 - var01 - var02 + 1) - 1.0d0/ &
-      3.0d0*var08/(var01*var02 - var01 - var02 + 1) - 1.0d0/3.0d0*var09 &
-      /(var01*var02 - var01 - var02 + 1))**2)/(par42*par58*(1 - var01) &
-      **2))**par59*(-par40 + var05)*(var01*var02 - var01 - var02 + 1)** &
-      (-par60)
-out_2014269512401877206(16, 1) = -par01*par48*(3*var10**2/(var01*var02 - &
-      var01 - var02 + 1)**2 + 3*var11**2/(var01*var02 - var01 - var02 + &
-      1)**2 + 3*var12**2/(var01*var02 - var01 - var02 + 1)**2 + (3.0d0/ &
-      2.0d0)*(-1.0d0/3.0d0*var07/(var01*var02 - var01 - var02 + 1) - &
-      1.0d0/3.0d0*var08/(var01*var02 - var01 - var02 + 1) + (2.0d0/ &
-      3.0d0)*var09/(var01*var02 - var01 - var02 + 1))**2 + (3.0d0/2.0d0 &
-      )*(-1.0d0/3.0d0*var07/(var01*var02 - var01 - var02 + 1) + (2.0d0/ &
-      3.0d0)*var08/(var01*var02 - var01 - var02 + 1) - 1.0d0/3.0d0* &
-      var09/(var01*var02 - var01 - var02 + 1))**2 + (3.0d0/2.0d0)*(( &
-      2.0d0/3.0d0)*var07/(var01*var02 - var01 - var02 + 1) - 1.0d0/ &
-      3.0d0*var08/(var01*var02 - var01 - var02 + 1) - 1.0d0/3.0d0*var09 &
-      /(var01*var02 - var01 - var02 + 1))**2)**((1.0d0/2.0d0)*par49) - &
-      par39 + var02
-out_2014269512401877206(17, 1) = -par20 - 0.666666666666667d0*par50*( &
-      -par08 + var13) + par52*var25*(-par40 + var05) + var25
-out_2014269512401877206(18, 1) = -par21 - 0.666666666666667d0*par50*( &
-      -par09 + var14) + par52*var26*(-par40 + var05) + var26
-out_2014269512401877206(19, 1) = -par22 - 0.666666666666667d0*par50*( &
-      -par10 + var15) + par52*var27*(-par40 + var05) + var27
-out_2014269512401877206(20, 1) = -par23 - 0.666666666666667d0*par50*( &
-      -par11 + var16) + par52*var28*(-par40 + var05) + var28
-out_2014269512401877206(21, 1) = -par24 - 0.666666666666667d0*par50*( &
-      -par12 + var17) + par52*var29*(-par40 + var05) + var29
-out_2014269512401877206(22, 1) = -par25 - 0.666666666666667d0*par50*( &
-      -par13 + var18) + par52*var30*(-par40 + var05) + var30
-out_2014269512401877206(23, 1) = -par26 + par51*var31*(-par40 + var05) - &
-      0.666666666666667d0*par54*(-par08 + var13) + var31
-out_2014269512401877206(24, 1) = -par27 + par51*var32*(-par40 + var05) - &
-      0.666666666666667d0*par54*(-par09 + var14) + var32
-out_2014269512401877206(25, 1) = -par28 + par51*var33*(-par40 + var05) - &
-      0.666666666666667d0*par54*(-par10 + var15) + var33
-out_2014269512401877206(26, 1) = -par29 + par51*var34*(-par40 + var05) - &
-      0.666666666666667d0*par54*(-par11 + var16) + var34
-out_2014269512401877206(27, 1) = -par30 + par51*var35*(-par40 + var05) - &
-      0.666666666666667d0*par54*(-par12 + var17) + var35
-out_2014269512401877206(28, 1) = -par31 + par51*var36*(-par40 + var05) - &
-      0.666666666666667d0*par54*(-par13 + var18) + var36
-out_2014269512401877206(29, 1) = -par32 - 0.666666666666667d0*par53*( &
-      -par08 + var13) + par55*var37*(-par40 + var05) + var37
-out_2014269512401877206(30, 1) = -par33 - 0.666666666666667d0*par53*( &
-      -par09 + var14) + par55*var38*(-par40 + var05) + var38
-out_2014269512401877206(31, 1) = -par34 - 0.666666666666667d0*par53*( &
-      -par10 + var15) + par55*var39*(-par40 + var05) + var39
-out_2014269512401877206(32, 1) = -par35 - 0.666666666666667d0*par53*( &
-      -par11 + var16) + par55*var40*(-par40 + var05) + var40
-out_2014269512401877206(33, 1) = -par36 - 0.666666666666667d0*par53*( &
-      -par12 + var17) + par55*var41*(-par40 + var05) + var41
-out_2014269512401877206(34, 1) = -par37 - 0.666666666666667d0*par53*( &
-      -par13 + var18) + par55*var42*(-par40 + var05) + var42
-out_2014269512401877206(35, 1) = -par56*var05**par57 + var03
-out_2014269512401877206(36, 1) = -par08 - var04*(1.0d0*var07/(var01* &
-      var02 - var01 - var02 + 1) - 0.5d0*var08/(var01*var02 - var01 - &
-      var02 + 1) - 0.5d0*var09/(var01*var02 - var01 - var02 + 1) - &
-      1.5d0*var25 - 1.5d0*var31 - 1.5d0*var37)/sqrt(3*(var10/(var01* &
-      var02 - var01 - var02 + 1) - var28 - var34 - var40)**2 + 3*(var11 &
-      /(var01*var02 - var01 - var02 + 1) - var29 - var35 - var41)**2 + &
-      3*(var12/(var01*var02 - var01 - var02 + 1) - var30 - var36 - &
-      var42)**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*var07/(var01*var02 - &
-      var01 - var02 + 1) - 1.0d0/3.0d0*var08/(var01*var02 - var01 - &
-      var02 + 1) + (2.0d0/3.0d0)*var09/(var01*var02 - var01 - var02 + 1 &
-      ) - var27 - var33 - var39)**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*var07 &
-      /(var01*var02 - var01 - var02 + 1) + (2.0d0/3.0d0)*var08/(var01* &
-      var02 - var01 - var02 + 1) - 1.0d0/3.0d0*var09/(var01*var02 - &
-      var01 - var02 + 1) - var26 - var32 - var38)**2 + (3.0d0/2.0d0)*(( &
-      2.0d0/3.0d0)*var07/(var01*var02 - var01 - var02 + 1) - 1.0d0/ &
-      3.0d0*var08/(var01*var02 - var01 - var02 + 1) - 1.0d0/3.0d0*var09 &
-      /(var01*var02 - var01 - var02 + 1) - var25 - var31 - var37)**2) + &
-      var13
-out_2014269512401877206(37, 1) = -par09 - var04*(-0.5d0*var07/(var01* &
-      var02 - var01 - var02 + 1) + 1.0d0*var08/(var01*var02 - var01 - &
-      var02 + 1) - 0.5d0*var09/(var01*var02 - var01 - var02 + 1) - &
-      1.5d0*var26 - 1.5d0*var32 - 1.5d0*var38)/sqrt(3*(var10/(var01* &
-      var02 - var01 - var02 + 1) - var28 - var34 - var40)**2 + 3*(var11 &
-      /(var01*var02 - var01 - var02 + 1) - var29 - var35 - var41)**2 + &
-      3*(var12/(var01*var02 - var01 - var02 + 1) - var30 - var36 - &
-      var42)**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*var07/(var01*var02 - &
-      var01 - var02 + 1) - 1.0d0/3.0d0*var08/(var01*var02 - var01 - &
-      var02 + 1) + (2.0d0/3.0d0)*var09/(var01*var02 - var01 - var02 + 1 &
-      ) - var27 - var33 - var39)**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*var07 &
-      /(var01*var02 - var01 - var02 + 1) + (2.0d0/3.0d0)*var08/(var01* &
-      var02 - var01 - var02 + 1) - 1.0d0/3.0d0*var09/(var01*var02 - &
-      var01 - var02 + 1) - var26 - var32 - var38)**2 + (3.0d0/2.0d0)*(( &
-      2.0d0/3.0d0)*var07/(var01*var02 - var01 - var02 + 1) - 1.0d0/ &
-      3.0d0*var08/(var01*var02 - var01 - var02 + 1) - 1.0d0/3.0d0*var09 &
-      /(var01*var02 - var01 - var02 + 1) - var25 - var31 - var37)**2) + &
-      var14
-out_2014269512401877206(38, 1) = -par10 - var04*(-0.5d0*var07/(var01* &
-      var02 - var01 - var02 + 1) - 0.5d0*var08/(var01*var02 - var01 - &
-      var02 + 1) + 1.0d0*var09/(var01*var02 - var01 - var02 + 1) - &
-      1.5d0*var27 - 1.5d0*var33 - 1.5d0*var39)/sqrt(3*(var10/(var01* &
-      var02 - var01 - var02 + 1) - var28 - var34 - var40)**2 + 3*(var11 &
-      /(var01*var02 - var01 - var02 + 1) - var29 - var35 - var41)**2 + &
-      3*(var12/(var01*var02 - var01 - var02 + 1) - var30 - var36 - &
-      var42)**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*var07/(var01*var02 - &
-      var01 - var02 + 1) - 1.0d0/3.0d0*var08/(var01*var02 - var01 - &
-      var02 + 1) + (2.0d0/3.0d0)*var09/(var01*var02 - var01 - var02 + 1 &
-      ) - var27 - var33 - var39)**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*var07 &
-      /(var01*var02 - var01 - var02 + 1) + (2.0d0/3.0d0)*var08/(var01* &
-      var02 - var01 - var02 + 1) - 1.0d0/3.0d0*var09/(var01*var02 - &
-      var01 - var02 + 1) - var26 - var32 - var38)**2 + (3.0d0/2.0d0)*(( &
-      2.0d0/3.0d0)*var07/(var01*var02 - var01 - var02 + 1) - 1.0d0/ &
-      3.0d0*var08/(var01*var02 - var01 - var02 + 1) - 1.0d0/3.0d0*var09 &
-      /(var01*var02 - var01 - var02 + 1) - var25 - var31 - var37)**2) + &
-      var15
-out_2014269512401877206(39, 1) = -par11 - var04*(1.5d0*var10/(var01* &
-      var02 - var01 - var02 + 1) - 1.5d0*var28 - 1.5d0*var34 - 1.5d0* &
-      var40)/sqrt(3*(var10/(var01*var02 - var01 - var02 + 1) - var28 - &
-      var34 - var40)**2 + 3*(var11/(var01*var02 - var01 - var02 + 1) - &
-      var29 - var35 - var41)**2 + 3*(var12/(var01*var02 - var01 - var02 &
-      + 1) - var30 - var36 - var42)**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0* &
-      var07/(var01*var02 - var01 - var02 + 1) - 1.0d0/3.0d0*var08/( &
-      var01*var02 - var01 - var02 + 1) + (2.0d0/3.0d0)*var09/(var01* &
-      var02 - var01 - var02 + 1) - var27 - var33 - var39)**2 + (3.0d0/ &
-      2.0d0)*(-1.0d0/3.0d0*var07/(var01*var02 - var01 - var02 + 1) + ( &
-      2.0d0/3.0d0)*var08/(var01*var02 - var01 - var02 + 1) - 1.0d0/ &
-      3.0d0*var09/(var01*var02 - var01 - var02 + 1) - var26 - var32 - &
-      var38)**2 + (3.0d0/2.0d0)*((2.0d0/3.0d0)*var07/(var01*var02 - &
-      var01 - var02 + 1) - 1.0d0/3.0d0*var08/(var01*var02 - var01 - &
-      var02 + 1) - 1.0d0/3.0d0*var09/(var01*var02 - var01 - var02 + 1) &
-      - var25 - var31 - var37)**2) + var16
-out_2014269512401877206(40, 1) = -par12 - var04*(1.5d0*var11/(var01* &
-      var02 - var01 - var02 + 1) - 1.5d0*var29 - 1.5d0*var35 - 1.5d0* &
-      var41)/sqrt(3*(var10/(var01*var02 - var01 - var02 + 1) - var28 - &
-      var34 - var40)**2 + 3*(var11/(var01*var02 - var01 - var02 + 1) - &
-      var29 - var35 - var41)**2 + 3*(var12/(var01*var02 - var01 - var02 &
-      + 1) - var30 - var36 - var42)**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0* &
-      var07/(var01*var02 - var01 - var02 + 1) - 1.0d0/3.0d0*var08/( &
-      var01*var02 - var01 - var02 + 1) + (2.0d0/3.0d0)*var09/(var01* &
-      var02 - var01 - var02 + 1) - var27 - var33 - var39)**2 + (3.0d0/ &
-      2.0d0)*(-1.0d0/3.0d0*var07/(var01*var02 - var01 - var02 + 1) + ( &
-      2.0d0/3.0d0)*var08/(var01*var02 - var01 - var02 + 1) - 1.0d0/ &
-      3.0d0*var09/(var01*var02 - var01 - var02 + 1) - var26 - var32 - &
-      var38)**2 + (3.0d0/2.0d0)*((2.0d0/3.0d0)*var07/(var01*var02 - &
-      var01 - var02 + 1) - 1.0d0/3.0d0*var08/(var01*var02 - var01 - &
-      var02 + 1) - 1.0d0/3.0d0*var09/(var01*var02 - var01 - var02 + 1) &
-      - var25 - var31 - var37)**2) + var17
-out_2014269512401877206(41, 1) = -par13 - var04*(1.5d0*var12/(var01* &
-      var02 - var01 - var02 + 1) - 1.5d0*var30 - 1.5d0*var36 - 1.5d0* &
-      var42)/sqrt(3*(var10/(var01*var02 - var01 - var02 + 1) - var28 - &
-      var34 - var40)**2 + 3*(var11/(var01*var02 - var01 - var02 + 1) - &
-      var29 - var35 - var41)**2 + 3*(var12/(var01*var02 - var01 - var02 &
-      + 1) - var30 - var36 - var42)**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0* &
-      var07/(var01*var02 - var01 - var02 + 1) - 1.0d0/3.0d0*var08/( &
-      var01*var02 - var01 - var02 + 1) + (2.0d0/3.0d0)*var09/(var01* &
-      var02 - var01 - var02 + 1) - var27 - var33 - var39)**2 + (3.0d0/ &
-      2.0d0)*(-1.0d0/3.0d0*var07/(var01*var02 - var01 - var02 + 1) + ( &
-      2.0d0/3.0d0)*var08/(var01*var02 - var01 - var02 + 1) - 1.0d0/ &
-      3.0d0*var09/(var01*var02 - var01 - var02 + 1) - var26 - var32 - &
-      var38)**2 + (3.0d0/2.0d0)*((2.0d0/3.0d0)*var07/(var01*var02 - &
-      var01 - var02 + 1) - 1.0d0/3.0d0*var08/(var01*var02 - var01 - &
-      var02 + 1) - 1.0d0/3.0d0*var09/(var01*var02 - var01 - var02 + 1) &
-      - var25 - var31 - var37)**2) + var18
-out_2014269512401877206(42, 1) = -par40 - var04 + var05
+REAL*8, intent(in) :: p01
+REAL*8, intent(in) :: p02
+REAL*8, intent(in) :: p03
+REAL*8, intent(in) :: p04
+REAL*8, intent(in) :: p05
+REAL*8, intent(in) :: p06
+REAL*8, intent(in) :: p07
+REAL*8, intent(in) :: p08
+REAL*8, intent(in) :: p09
+REAL*8, intent(in) :: p10
+REAL*8, intent(in) :: p11
+REAL*8, intent(in) :: p12
+REAL*8, intent(in) :: p13
+REAL*8, intent(in) :: p14
+REAL*8, intent(in) :: p15
+REAL*8, intent(in) :: p16
+REAL*8, intent(in) :: p17
+REAL*8, intent(in) :: p18
+REAL*8, intent(in) :: p19
+REAL*8, intent(in) :: p20
+REAL*8, intent(in) :: p21
+REAL*8, intent(in) :: p22
+REAL*8, intent(in) :: p23
+REAL*8, intent(in) :: p24
+REAL*8, intent(in) :: p25
+REAL*8, intent(in) :: p26
+REAL*8, intent(in) :: p27
+REAL*8, intent(in) :: p28
+REAL*8, intent(in) :: p29
+REAL*8, intent(in) :: p30
+REAL*8, intent(in) :: p31
+REAL*8, intent(in) :: p32
+REAL*8, intent(in) :: p33
+REAL*8, intent(in) :: p34
+REAL*8, intent(in) :: p35
+REAL*8, intent(in) :: p36
+REAL*8, intent(in) :: p37
+REAL*8, intent(in) :: p38
+REAL*8, intent(in) :: p39
+REAL*8, intent(in) :: p40
+REAL*8, intent(in) :: p41
+REAL*8, intent(in) :: p42
+REAL*8, intent(in) :: p43
+REAL*8, intent(in) :: p44
+REAL*8, intent(in) :: p45
+REAL*8, intent(in) :: p46
+REAL*8, intent(in) :: p47
+REAL*8, intent(in) :: p48
+REAL*8, intent(in) :: p49
+REAL*8, intent(in) :: p50
+REAL*8, intent(in) :: p51
+REAL*8, intent(in) :: p52
+REAL*8, intent(in) :: p53
+REAL*8, intent(in) :: p54
+REAL*8, intent(in) :: p55
+REAL*8, intent(in) :: p56
+REAL*8, intent(in) :: p57
+REAL*8, intent(in) :: p58
+REAL*8, intent(in) :: v01
+REAL*8, intent(in) :: v02
+REAL*8, intent(in) :: v03
+REAL*8, intent(in) :: v04
+REAL*8, intent(in) :: v05
+REAL*8, intent(in) :: v06
+REAL*8, intent(in) :: v07
+REAL*8, intent(in) :: v08
+REAL*8, intent(in) :: v09
+REAL*8, intent(in) :: v10
+REAL*8, intent(in) :: v11
+REAL*8, intent(in) :: v12
+REAL*8, intent(in) :: v13
+REAL*8, intent(in) :: v14
+REAL*8, intent(in) :: v15
+REAL*8, intent(in) :: v16
+REAL*8, intent(in) :: v17
+REAL*8, intent(in) :: v18
+REAL*8, intent(in) :: v19
+REAL*8, intent(in) :: v20
+REAL*8, intent(in) :: v21
+REAL*8, intent(in) :: v22
+REAL*8, intent(in) :: v23
+REAL*8, intent(in) :: v24
+REAL*8, intent(in) :: v25
+REAL*8, intent(in) :: v26
+REAL*8, intent(in) :: v27
+REAL*8, intent(in) :: v28
+REAL*8, intent(in) :: v29
+REAL*8, intent(in) :: v30
+REAL*8, intent(in) :: v31
+REAL*8, intent(in) :: v32
+REAL*8, intent(in) :: v33
+REAL*8, intent(in) :: v34
+REAL*8, intent(in) :: v35
+REAL*8, intent(in) :: v36
+REAL*8, intent(in) :: v37
+REAL*8, intent(in) :: v38
+REAL*8, intent(in) :: v39
+REAL*8, intent(out), dimension(1:39, 1:1) :: out_6929325522347253671
+out_6929325522347253671(1, 1) = -p40*p41*(p02 - v08 - v14)/((1 - 2*p41)* &
+      (p41 + 1)) - p40*p41*(p03 - v09 - v15)/((1 - 2*p41)*(p41 + 1)) + &
+      v01 - (p40*p41/((1 - 2*p41)*(p41 + 1)) + 2*p40/(2*p41 + 2))*(p01 &
+      - v07 - v13)
+out_6929325522347253671(2, 1) = -p40*p41*(p01 - v07 - v13)/((1 - 2*p41)* &
+      (p41 + 1)) - p40*p41*(p03 - v09 - v15)/((1 - 2*p41)*(p41 + 1)) + &
+      v02 - (p40*p41/((1 - 2*p41)*(p41 + 1)) + 2*p40/(2*p41 + 2))*(p02 &
+      - v08 - v14)
+out_6929325522347253671(3, 1) = -p40*p41*(p01 - v07 - v13)/((1 - 2*p41)* &
+      (p41 + 1)) - p40*p41*(p02 - v08 - v14)/((1 - 2*p41)*(p41 + 1)) + &
+      v03 - (p40*p41/((1 - 2*p41)*(p41 + 1)) + 2*p40/(2*p41 + 2))*(p03 &
+      - v09 - v15)
+out_6929325522347253671(4, 1) = -p40*(p04 - v10 - v16)/(2*p41 + 2) + v04
+out_6929325522347253671(5, 1) = -p40*(p05 - v11 - v17)/(2*p41 + 2) + v05
+out_6929325522347253671(6, 1) = -p40*(p06 - v12 - v18)/(2*p41 + 2) + v06
+out_6929325522347253671(7, 1) = -p07 + v07 - v39*(1.0d0*v01 - 0.5d0*v02 &
+      - 0.5d0*v03 - 1.5d0*v19 - 1.5d0*v25 - 1.5d0*v31)/(sqrt(3.0d0*(v04 &
+      - v22 - v28 - v34)**2 + 3.0d0*(v05 - v23 - v29 - v35)**2 + 3.0d0* &
+      (v06 - v24 - v30 - v36)**2 + 1.5d0*(-1.0d0/3.0d0*v01 - 1.0d0/ &
+      3.0d0*v02 + (2.0d0/3.0d0)*v03 - v21 - v27 - v33)**2 + 1.5d0*( &
+      -1.0d0/3.0d0*v01 + (2.0d0/3.0d0)*v02 - 1.0d0/3.0d0*v03 - v20 - &
+      v26 - v32)**2 + 1.5d0*((2.0d0/3.0d0)*v01 - 1.0d0/3.0d0*v02 - &
+      1.0d0/3.0d0*v03 - v19 - v25 - v31)**2) + 1.0d-16)
+out_6929325522347253671(8, 1) = -p08 + v08 - v39*(-0.5d0*v01 + 1.0d0*v02 &
+      - 0.5d0*v03 - 1.5d0*v20 - 1.5d0*v26 - 1.5d0*v32)/(sqrt(3.0d0*(v04 &
+      - v22 - v28 - v34)**2 + 3.0d0*(v05 - v23 - v29 - v35)**2 + 3.0d0* &
+      (v06 - v24 - v30 - v36)**2 + 1.5d0*(-1.0d0/3.0d0*v01 - 1.0d0/ &
+      3.0d0*v02 + (2.0d0/3.0d0)*v03 - v21 - v27 - v33)**2 + 1.5d0*( &
+      -1.0d0/3.0d0*v01 + (2.0d0/3.0d0)*v02 - 1.0d0/3.0d0*v03 - v20 - &
+      v26 - v32)**2 + 1.5d0*((2.0d0/3.0d0)*v01 - 1.0d0/3.0d0*v02 - &
+      1.0d0/3.0d0*v03 - v19 - v25 - v31)**2) + 1.0d-16)
+out_6929325522347253671(9, 1) = -p09 + v09 - v39*(-0.5d0*v01 - 0.5d0*v02 &
+      + 1.0d0*v03 - 1.5d0*v21 - 1.5d0*v27 - 1.5d0*v33)/(sqrt(3.0d0*(v04 &
+      - v22 - v28 - v34)**2 + 3.0d0*(v05 - v23 - v29 - v35)**2 + 3.0d0* &
+      (v06 - v24 - v30 - v36)**2 + 1.5d0*(-1.0d0/3.0d0*v01 - 1.0d0/ &
+      3.0d0*v02 + (2.0d0/3.0d0)*v03 - v21 - v27 - v33)**2 + 1.5d0*( &
+      -1.0d0/3.0d0*v01 + (2.0d0/3.0d0)*v02 - 1.0d0/3.0d0*v03 - v20 - &
+      v26 - v32)**2 + 1.5d0*((2.0d0/3.0d0)*v01 - 1.0d0/3.0d0*v02 - &
+      1.0d0/3.0d0*v03 - v19 - v25 - v31)**2) + 1.0d-16)
+out_6929325522347253671(10, 1) = -p10 + v10 - v39*(1.5d0*v04 - 1.5d0*v22 &
+      - 1.5d0*v28 - 1.5d0*v34)/(sqrt(3.0d0*(v04 - v22 - v28 - v34)**2 + &
+      3.0d0*(v05 - v23 - v29 - v35)**2 + 3.0d0*(v06 - v24 - v30 - v36) &
+      **2 + 1.5d0*(-1.0d0/3.0d0*v01 - 1.0d0/3.0d0*v02 + (2.0d0/3.0d0)* &
+      v03 - v21 - v27 - v33)**2 + 1.5d0*(-1.0d0/3.0d0*v01 + (2.0d0/ &
+      3.0d0)*v02 - 1.0d0/3.0d0*v03 - v20 - v26 - v32)**2 + 1.5d0*(( &
+      2.0d0/3.0d0)*v01 - 1.0d0/3.0d0*v02 - 1.0d0/3.0d0*v03 - v19 - v25 &
+      - v31)**2) + 1.0d-16)
+out_6929325522347253671(11, 1) = -p11 + v11 - v39*(1.5d0*v05 - 1.5d0*v23 &
+      - 1.5d0*v29 - 1.5d0*v35)/(sqrt(3.0d0*(v04 - v22 - v28 - v34)**2 + &
+      3.0d0*(v05 - v23 - v29 - v35)**2 + 3.0d0*(v06 - v24 - v30 - v36) &
+      **2 + 1.5d0*(-1.0d0/3.0d0*v01 - 1.0d0/3.0d0*v02 + (2.0d0/3.0d0)* &
+      v03 - v21 - v27 - v33)**2 + 1.5d0*(-1.0d0/3.0d0*v01 + (2.0d0/ &
+      3.0d0)*v02 - 1.0d0/3.0d0*v03 - v20 - v26 - v32)**2 + 1.5d0*(( &
+      2.0d0/3.0d0)*v01 - 1.0d0/3.0d0*v02 - 1.0d0/3.0d0*v03 - v19 - v25 &
+      - v31)**2) + 1.0d-16)
+out_6929325522347253671(12, 1) = -p12 + v12 - v39*(1.5d0*v06 - 1.5d0*v24 &
+      - 1.5d0*v30 - 1.5d0*v36)/(sqrt(3.0d0*(v04 - v22 - v28 - v34)**2 + &
+      3.0d0*(v05 - v23 - v29 - v35)**2 + 3.0d0*(v06 - v24 - v30 - v36) &
+      **2 + 1.5d0*(-1.0d0/3.0d0*v01 - 1.0d0/3.0d0*v02 + (2.0d0/3.0d0)* &
+      v03 - v21 - v27 - v33)**2 + 1.5d0*(-1.0d0/3.0d0*v01 + (2.0d0/ &
+      3.0d0)*v02 - 1.0d0/3.0d0*v03 - v20 - v26 - v32)**2 + 1.5d0*(( &
+      2.0d0/3.0d0)*v01 - 1.0d0/3.0d0*v02 - 1.0d0/3.0d0*v03 - v19 - v25 &
+      - v31)**2) + 1.0d-16)
+out_6929325522347253671(13, 1) = -p13 - 1.5d0*p45*p58*((2.0d0/3.0d0)*v01 &
+      - 1.0d0/3.0d0*v02 - 1.0d0/3.0d0*v03)*(3*v04**2 + 3*v05**2 + 3*v06 &
+      **2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*v01 - 1.0d0/3.0d0*v02 + (2.0d0/ &
+      3.0d0)*v03)**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*v01 + (2.0d0/3.0d0)* &
+      v02 - 1.0d0/3.0d0*v03)**2 + (3.0d0/2.0d0)*((2.0d0/3.0d0)*v01 - &
+      1.0d0/3.0d0*v02 - 1.0d0/3.0d0*v03)**2)**((1.0d0/2.0d0)*p46 - &
+      1.0d0/2.0d0) + v13
+out_6929325522347253671(14, 1) = -p14 - 1.5d0*p45*p58*(-1.0d0/3.0d0*v01 &
+      + (2.0d0/3.0d0)*v02 - 1.0d0/3.0d0*v03)*(3*v04**2 + 3*v05**2 + 3* &
+      v06**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*v01 - 1.0d0/3.0d0*v02 + ( &
+      2.0d0/3.0d0)*v03)**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*v01 + (2.0d0/ &
+      3.0d0)*v02 - 1.0d0/3.0d0*v03)**2 + (3.0d0/2.0d0)*((2.0d0/3.0d0)* &
+      v01 - 1.0d0/3.0d0*v02 - 1.0d0/3.0d0*v03)**2)**((1.0d0/2.0d0)*p46 &
+      - 1.0d0/2.0d0) + v14
+out_6929325522347253671(15, 1) = -p15 - 1.5d0*p45*p58*(-1.0d0/3.0d0*v01 &
+      - 1.0d0/3.0d0*v02 + (2.0d0/3.0d0)*v03)*(3*v04**2 + 3*v05**2 + 3* &
+      v06**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*v01 - 1.0d0/3.0d0*v02 + ( &
+      2.0d0/3.0d0)*v03)**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*v01 + (2.0d0/ &
+      3.0d0)*v02 - 1.0d0/3.0d0*v03)**2 + (3.0d0/2.0d0)*((2.0d0/3.0d0)* &
+      v01 - 1.0d0/3.0d0*v02 - 1.0d0/3.0d0*v03)**2)**((1.0d0/2.0d0)*p46 &
+      - 1.0d0/2.0d0) + v15
+out_6929325522347253671(16, 1) = -p16 - 1.5d0*p45*p58*v04*(3*v04**2 + 3* &
+      v05**2 + 3*v06**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*v01 - 1.0d0/3.0d0 &
+      *v02 + (2.0d0/3.0d0)*v03)**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*v01 + &
+      (2.0d0/3.0d0)*v02 - 1.0d0/3.0d0*v03)**2 + (3.0d0/2.0d0)*((2.0d0/ &
+      3.0d0)*v01 - 1.0d0/3.0d0*v02 - 1.0d0/3.0d0*v03)**2)**((1.0d0/ &
+      2.0d0)*p46 - 1.0d0/2.0d0) + v16
+out_6929325522347253671(17, 1) = -p17 - 1.5d0*p45*p58*v05*(3*v04**2 + 3* &
+      v05**2 + 3*v06**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*v01 - 1.0d0/3.0d0 &
+      *v02 + (2.0d0/3.0d0)*v03)**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*v01 + &
+      (2.0d0/3.0d0)*v02 - 1.0d0/3.0d0*v03)**2 + (3.0d0/2.0d0)*((2.0d0/ &
+      3.0d0)*v01 - 1.0d0/3.0d0*v02 - 1.0d0/3.0d0*v03)**2)**((1.0d0/ &
+      2.0d0)*p46 - 1.0d0/2.0d0) + v17
+out_6929325522347253671(18, 1) = -p18 - 1.5d0*p45*p58*v06*(3*v04**2 + 3* &
+      v05**2 + 3*v06**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*v01 - 1.0d0/3.0d0 &
+      *v02 + (2.0d0/3.0d0)*v03)**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*v01 + &
+      (2.0d0/3.0d0)*v02 - 1.0d0/3.0d0*v03)**2 + (3.0d0/2.0d0)*((2.0d0/ &
+      3.0d0)*v01 - 1.0d0/3.0d0*v02 - 1.0d0/3.0d0*v03)**2)**((1.0d0/ &
+      2.0d0)*p46 - 1.0d0/2.0d0) + v18
+out_6929325522347253671(19, 1) = -p19 - 0.666666666666667d0*p47*(-p07 + &
+      v07) + p48*v19*(-p39 + sqrt(0.666666666666667d0*v07**2 + &
+      0.666666666666667d0*v08**2 + 0.666666666666667d0*v09**2 + &
+      1.33333333333333d0*v10**2 + 1.33333333333333d0*v11**2 + &
+      1.33333333333333d0*v12**2)) + v19
+out_6929325522347253671(20, 1) = -p20 - 0.666666666666667d0*p47*(-p08 + &
+      v08) + p48*v20*(-p39 + sqrt(0.666666666666667d0*v07**2 + &
+      0.666666666666667d0*v08**2 + 0.666666666666667d0*v09**2 + &
+      1.33333333333333d0*v10**2 + 1.33333333333333d0*v11**2 + &
+      1.33333333333333d0*v12**2)) + v20
+out_6929325522347253671(21, 1) = -p21 - 0.666666666666667d0*p47*(-p09 + &
+      v09) + p48*v21*(-p39 + sqrt(0.666666666666667d0*v07**2 + &
+      0.666666666666667d0*v08**2 + 0.666666666666667d0*v09**2 + &
+      1.33333333333333d0*v10**2 + 1.33333333333333d0*v11**2 + &
+      1.33333333333333d0*v12**2)) + v21
+out_6929325522347253671(22, 1) = -p22 - 0.666666666666667d0*p47*(-p10 + &
+      v10) + p48*v22*(-p39 + sqrt(0.666666666666667d0*v07**2 + &
+      0.666666666666667d0*v08**2 + 0.666666666666667d0*v09**2 + &
+      1.33333333333333d0*v10**2 + 1.33333333333333d0*v11**2 + &
+      1.33333333333333d0*v12**2)) + v22
+out_6929325522347253671(23, 1) = -p23 - 0.666666666666667d0*p47*(-p11 + &
+      v11) + p48*v23*(-p39 + sqrt(0.666666666666667d0*v07**2 + &
+      0.666666666666667d0*v08**2 + 0.666666666666667d0*v09**2 + &
+      1.33333333333333d0*v10**2 + 1.33333333333333d0*v11**2 + &
+      1.33333333333333d0*v12**2)) + v23
+out_6929325522347253671(24, 1) = -p24 - 0.666666666666667d0*p47*(-p12 + &
+      v12) + p48*v24*(-p39 + sqrt(0.666666666666667d0*v07**2 + &
+      0.666666666666667d0*v08**2 + 0.666666666666667d0*v09**2 + &
+      1.33333333333333d0*v10**2 + 1.33333333333333d0*v11**2 + &
+      1.33333333333333d0*v12**2)) + v24
+out_6929325522347253671(25, 1) = -p25 - 0.666666666666667d0*p49*(-p07 + &
+      v07) + p50*v25*(-p39 + sqrt(0.666666666666667d0*v07**2 + &
+      0.666666666666667d0*v08**2 + 0.666666666666667d0*v09**2 + &
+      1.33333333333333d0*v10**2 + 1.33333333333333d0*v11**2 + &
+      1.33333333333333d0*v12**2)) + v25
+out_6929325522347253671(26, 1) = -p26 - 0.666666666666667d0*p49*(-p08 + &
+      v08) + p50*v26*(-p39 + sqrt(0.666666666666667d0*v07**2 + &
+      0.666666666666667d0*v08**2 + 0.666666666666667d0*v09**2 + &
+      1.33333333333333d0*v10**2 + 1.33333333333333d0*v11**2 + &
+      1.33333333333333d0*v12**2)) + v26
+out_6929325522347253671(27, 1) = -p27 - 0.666666666666667d0*p49*(-p09 + &
+      v09) + p50*v27*(-p39 + sqrt(0.666666666666667d0*v07**2 + &
+      0.666666666666667d0*v08**2 + 0.666666666666667d0*v09**2 + &
+      1.33333333333333d0*v10**2 + 1.33333333333333d0*v11**2 + &
+      1.33333333333333d0*v12**2)) + v27
+out_6929325522347253671(28, 1) = -p28 - 0.666666666666667d0*p49*(-p10 + &
+      v10) + p50*v28*(-p39 + sqrt(0.666666666666667d0*v07**2 + &
+      0.666666666666667d0*v08**2 + 0.666666666666667d0*v09**2 + &
+      1.33333333333333d0*v10**2 + 1.33333333333333d0*v11**2 + &
+      1.33333333333333d0*v12**2)) + v28
+out_6929325522347253671(29, 1) = -p29 - 0.666666666666667d0*p49*(-p11 + &
+      v11) + p50*v29*(-p39 + sqrt(0.666666666666667d0*v07**2 + &
+      0.666666666666667d0*v08**2 + 0.666666666666667d0*v09**2 + &
+      1.33333333333333d0*v10**2 + 1.33333333333333d0*v11**2 + &
+      1.33333333333333d0*v12**2)) + v29
+out_6929325522347253671(30, 1) = -p30 - 0.666666666666667d0*p49*(-p12 + &
+      v12) + p50*v30*(-p39 + sqrt(0.666666666666667d0*v07**2 + &
+      0.666666666666667d0*v08**2 + 0.666666666666667d0*v09**2 + &
+      1.33333333333333d0*v10**2 + 1.33333333333333d0*v11**2 + &
+      1.33333333333333d0*v12**2)) + v30
+out_6929325522347253671(31, 1) = -p31 - 0.666666666666667d0*p51*(-p07 + &
+      v07) + p52*v31*(-p39 + sqrt(0.666666666666667d0*v07**2 + &
+      0.666666666666667d0*v08**2 + 0.666666666666667d0*v09**2 + &
+      1.33333333333333d0*v10**2 + 1.33333333333333d0*v11**2 + &
+      1.33333333333333d0*v12**2)) + v31
+out_6929325522347253671(32, 1) = -p32 - 0.666666666666667d0*p51*(-p08 + &
+      v08) + p52*v32*(-p39 + sqrt(0.666666666666667d0*v07**2 + &
+      0.666666666666667d0*v08**2 + 0.666666666666667d0*v09**2 + &
+      1.33333333333333d0*v10**2 + 1.33333333333333d0*v11**2 + &
+      1.33333333333333d0*v12**2)) + v32
+out_6929325522347253671(33, 1) = -p33 - 0.666666666666667d0*p51*(-p09 + &
+      v09) + p52*v33*(-p39 + sqrt(0.666666666666667d0*v07**2 + &
+      0.666666666666667d0*v08**2 + 0.666666666666667d0*v09**2 + &
+      1.33333333333333d0*v10**2 + 1.33333333333333d0*v11**2 + &
+      1.33333333333333d0*v12**2)) + v33
+out_6929325522347253671(34, 1) = -p34 - 0.666666666666667d0*p51*(-p10 + &
+      v10) + p52*v34*(-p39 + sqrt(0.666666666666667d0*v07**2 + &
+      0.666666666666667d0*v08**2 + 0.666666666666667d0*v09**2 + &
+      1.33333333333333d0*v10**2 + 1.33333333333333d0*v11**2 + &
+      1.33333333333333d0*v12**2)) + v34
+out_6929325522347253671(35, 1) = -p35 - 0.666666666666667d0*p51*(-p11 + &
+      v11) + p52*v35*(-p39 + sqrt(0.666666666666667d0*v07**2 + &
+      0.666666666666667d0*v08**2 + 0.666666666666667d0*v09**2 + &
+      1.33333333333333d0*v10**2 + 1.33333333333333d0*v11**2 + &
+      1.33333333333333d0*v12**2)) + v35
+out_6929325522347253671(36, 1) = -p36 - 0.666666666666667d0*p51*(-p12 + &
+      v12) + p52*v36*(-p39 + sqrt(0.666666666666667d0*v07**2 + &
+      0.666666666666667d0*v08**2 + 0.666666666666667d0*v09**2 + &
+      1.33333333333333d0*v10**2 + 1.33333333333333d0*v11**2 + &
+      1.33333333333333d0*v12**2)) + v36
+out_6929325522347253671(37, 1) = -p42 - p43*(0.666666666666667d0*v07**2 &
+      + 0.666666666666667d0*v08**2 + 0.666666666666667d0*v09**2 + &
+      1.33333333333333d0*v10**2 + 1.33333333333333d0*v11**2 + &
+      1.33333333333333d0*v12**2)**((1.0d0/2.0d0)*p44) + sqrt(3.0d0*(v04 &
+      - v22 - v28 - v34)**2 + 3.0d0*(v05 - v23 - v29 - v35)**2 + 3.0d0* &
+      (v06 - v24 - v30 - v36)**2 + 1.5d0*(-1.0d0/3.0d0*v01 - 1.0d0/ &
+      3.0d0*v02 + (2.0d0/3.0d0)*v03 - v21 - v27 - v33)**2 + 1.5d0*( &
+      -1.0d0/3.0d0*v01 + (2.0d0/3.0d0)*v02 - 1.0d0/3.0d0*v03 - v20 - &
+      v26 - v32)**2 + 1.5d0*((2.0d0/3.0d0)*v01 - 1.0d0/3.0d0*v02 - &
+      1.0d0/3.0d0*v03 - v19 - v25 - v31)**2)
+out_6929325522347253671(38, 1) = -p37 + v37 - v39*((1.0d0/2.0d0)*( &
+      0.666666666666667d0*p41 + (3 - 6*p41)*((1.0d0/3.0d0)*v01 + (1.0d0 &
+      /3.0d0)*v02 + (1.0d0/3.0d0)*v03)**2/(3*v04**2 + 3*v05**2 + 3*v06 &
+      **2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*v01 - 1.0d0/3.0d0*v02 + (2.0d0/ &
+      3.0d0)*v03)**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*v01 + (2.0d0/3.0d0)* &
+      v02 - 1.0d0/3.0d0*v03)**2 + (3.0d0/2.0d0)*((2.0d0/3.0d0)*v01 - &
+      1.0d0/3.0d0*v02 - 1.0d0/3.0d0*v03)**2) + 0.666666666666667d0)*(3* &
+      v04**2 + 3*v05**2 + 3*v06**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*v01 - &
+      1.0d0/3.0d0*v02 + (2.0d0/3.0d0)*v03)**2 + (3.0d0/2.0d0)*(-1.0d0/ &
+      3.0d0*v01 + (2.0d0/3.0d0)*v02 - 1.0d0/3.0d0*v03)**2 + (3.0d0/ &
+      2.0d0)*((2.0d0/3.0d0)*v01 - 1.0d0/3.0d0*v02 - 1.0d0/3.0d0*v03)**2 &
+      )/(p40*p53*(1 - v37)**2))**p54*(v37*v38 - v37 - v38 + 1)**(-p55)
+out_6929325522347253671(39, 1) = -p38 - p56*p58*(3*v04**2 + 3*v05**2 + 3 &
+      *v06**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*v01 - 1.0d0/3.0d0*v02 + ( &
+      2.0d0/3.0d0)*v03)**2 + (3.0d0/2.0d0)*(-1.0d0/3.0d0*v01 + (2.0d0/ &
+      3.0d0)*v02 - 1.0d0/3.0d0*v03)**2 + (3.0d0/2.0d0)*((2.0d0/3.0d0)* &
+      v01 - 1.0d0/3.0d0*v02 - 1.0d0/3.0d0*v03)**2)**((1.0d0/2.0d0)*p57 &
+      ) + v38
 end subroutine

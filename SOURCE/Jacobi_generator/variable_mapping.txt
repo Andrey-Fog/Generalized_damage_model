@@ -1,43 +1,10 @@
-Variables (42 total):
-01: D_pl (plastic damage)
-02: D_cr (creep damage)
-03: R (isotropic hardening)
-04: dlambda (plastic multiplier)
-05: e_pl_eqv (equivalent plastic strain)
-06: e_cr_eqv (equivalent creep strain)
-07: sigma_1 (stress tensor component 1)
-08: sigma_2 (stress tensor component 2)
-09: sigma_3 (stress tensor component 3)
-10: sigma_4 (stress tensor component 4)
-11: sigma_5 (stress tensor component 5)
-12: sigma_6 (stress tensor component 6)
-13: e_pl_1 (plastic strain tensor component 1)
-14: e_pl_2 (plastic strain tensor component 2)
-15: e_pl_3 (plastic strain tensor component 3)
-16: e_pl_4 (plastic strain tensor component 4)
-17: e_pl_5 (plastic strain tensor component 5)
-18: e_pl_6 (plastic strain tensor component 6)
-19: e_cr_1 (creep strain tensor component 1)
-20: e_cr_2 (creep strain tensor component 2)
-21: e_cr_3 (creep strain tensor component 3)
-22: e_cr_4 (creep strain tensor component 4)
-23: e_cr_5 (creep strain tensor component 5)
-24: e_cr_6 (creep strain tensor component 6)
-25: X1_1 (backstress tensor 1 component 1)
-26: X1_2 (backstress tensor 1 component 2)
-27: X1_3 (backstress tensor 1 component 3)
-28: X1_4 (backstress tensor 1 component 4)
-29: X1_5 (backstress tensor 1 component 5)
-30: X1_6 (backstress tensor 1 component 6)
-31: X2_1 (backstress tensor 2 component 1)
-32: X2_2 (backstress tensor 2 component 2)
-33: X2_3 (backstress tensor 2 component 3)
-34: X2_4 (backstress tensor 2 component 4)
-35: X2_5 (backstress tensor 2 component 5)
-36: X2_6 (backstress tensor 2 component 6)
-37: X3_1 (backstress tensor 3 component 1)
-38: X3_2 (backstress tensor 3 component 2)
-39: X3_3 (backstress tensor 3 component 3)
-40: X3_4 (backstress tensor 3 component 4)
-41: X3_5 (backstress tensor 3 component 5)
-42: X3_6 (backstress tensor 3 component 6)
+Variables (39):
+1-6: sigma_eff components
+7-12: e_pl components
+13-18: e_cr components
+19-24: X1 components
+25-30: X2 components
+31-36: X3 components
+37: D_pl
+38: D_cr
+39: Depseqv

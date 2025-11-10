@@ -97,11 +97,12 @@ c           dsdePl    |  1211   1222   1233   1212 |
 c
 c*************************************************************************
 
+
 #include "impcom.inc"
 c
       EXTERNAL material_residuals_wrapper, material_jacobian
       EXTERNAL compute_elastic_tensor, compute_yield_function
-      ! Определение входных и выходных параметров (соответствует документации ANSYS)
+      EXTERNAL solve_linear_system, compute_tangent_matrix
       integer matId, elemId, kDomIntPt, kLayer, kSectPt,
      &        ldstep, isubst, keycut,
      &        nDirect, nShear, ncomp, nStatev, nProp
@@ -117,83 +118,74 @@ c
 
       double precision var0, var1, var2, var3, var4, var5,
      &                 var6, var7
-      ! Локальные переменные
+      !local
       integer, parameter :: nvars = 42
       double precision :: params(60), vars(nvars)
-      double precision :: F(nvars), Jac(nvars,nvars)      
-      double precision :: e_total(6), delta_t
+      double precision :: F(nvars) = 0.0d0, Jac(nvars,nvars) = 0.0d0 
+      double precision :: e_total(6)
       integer i, j, NR_iter,NR_maxiter
       double precision tol, normF
-      double precision  stress_trial(6), e_el_trial(6), X_total(6)
-      double precision Young, nue ,D_sum_0, sigma_y0, s_eff_trial, 
+      double precision  stress_trial(6), e_el_trial(6), X_total(6), 
+     &            s_eff_trial(6)
+      double precision Young, nue ,D_sum_0, sigma_y0, 
      &             e_pl_eqv, K_Iso, m_Iso, phi_pl, norm_s_minus_X
       logical converged, plastic_loading
-
-      
-      ! Инициализация параметров из prop
+      !initialization
       params(1) = dTime
-      
-      ! Преобразование тензоров из Voigt в полные тензоры
-      e_total(1:6) = Strain(1:6) + dStrain(1:6)
-      params(2:7) = e_total
-
-      ! Загрузка начальных состояний из ustatev
-      params(8:13) = ustatev(1:6)   ! e_pl_0
-      params(14:19) = ustatev(7:12)  ! e_cr_0
-      params(20:25) = ustatev(13:18) ! X1_0
-      params(26:31) = ustatev(19:24) ! X2_0
-      params(32:37) = ustatev(25:30) ! X3_0
-      params(38) = ustatev(31)       ! D_pl_0
-      params(39) = ustatev(32)       ! D_cr_0
-      params(40) = ustatev(33)       ! e_pl_eqv_0
-      params(41) = ustatev(34)       ! e_cr_eqv_0
-
-      ! Материальные константы
-      params(42) = prop(1)  ; Young = prop(1) 
-      params(43) = prop(2)  ; nue = prop(2)
-      params(44) = prop(3)  ; sigma_y0  = prop(3) 
-      params(45) = prop(4)  ! A_cr (creep)
-      params(46) = prop(5)  ! n_cr (creep)
-      params(47) = prop(6)  ! q_cr (creep)
-      params(48) = prop(7)  ! A_cr_dmg
-      params(49) = prop(8)  ! r_cr_dmg (creep damage)
-      params(50) = prop(9)  ! C1_X
-      params(51) = prop(10) ! gamma1_X
-      params(52) = prop(11) ! C2_X
-      params(53) = prop(12) ! gamma2_X
-      params(54) = prop(13) ! C3_X
-      params(55) = prop(14) ! gamma3_X
-      params(56) = prop(15) ; K_Iso = prop(15)
-      params(57) = prop(16) ; m_Iso = prop(16)
-      params(58) = prop(17) ! S
-      params(59) = prop(18) ! s
-      params(60) = prop(19) ! k
-
-      ! Начальное приближение для переменных
-      vars(1) = ustatev(31)   ! D_pl
-      vars(2) = ustatev(32)   ! D_cr
-      vars(3) = 0.0           ! R (начальное значение)
-      vars(4) = 0.0           ! dlambda
-      vars(5) = ustatev(33)   ; e_pl_eqv = ustatev(33)
-      vars(6) = ustatev(34)   ! e_cr_eqv
-      vars(7:12) = stress     ! sigma
-      vars(13:18) = ustatev(1:6)  ! e_pl
-      vars(19:24) = ustatev(7:12) ! e_cr
-      vars(25:30) = ustatev(13:18) ! X1
-      vars(31:36) = ustatev(19:24) ! X2
-      vars(37:42) = ustatev(25:30) ! X3
-
-      ! Параметры решения Ньютона-Рафсона
       NR_maxiter = 50
       tol = 1.0d-8
       converged = .false.
-      !Young = prop(1)
-      !nue  = prop (2)
-      ! ШАГ 1: Упругое предсказание (elastic predictor)
+      !total strain
+      e_total(1:6) = Strain(1:6) + dStrain(1:6)
+      
+      !Parameters (58):
+!1-6: e_total components
+!7-12: e_pl_0 components
+!13-18: e_cr_0 components
+!19-24: X1_0 components
+!25-30: X2_0 components
+!31-36: X3_0 components
+!37: D_pl_0
+!38: D_cr_0
+!39: e_pl_eqv_0....
+      !material properties
+!40: Young
+!41: nu
+!42: sigma_y0
+!43: A_iso
+!44: B_iso
+!45: A_cr
+!46: B_cr
+!47: C1_X
+!48: gamma1_X
+!49: C2_X
+!50: gamma2_X
+!51: C3_X
+!52: gamma3_X
+!53: A_lem
+!54: B_lem
+!55: C_lem
+!56: A_dmg
+!57: B_dmg
+      params(1:6) = e_total
+      !get from ustatev
+      params(7:39) = ustatev(7:39)   !
+      params(40:57) = prop(1:18)
+      params(58)=dtime
+      
+      Young = prop(1) 
+      nue = prop(2)
+      sigma_y0  = prop(3) 
+      K_Iso = prop(15)
+      m_Iso = prop(16)
+      
+
+      
+
+      ! elastic predictor
       call compute_elastic_tensor(Young, nue, dsdePl)
        ! trial elastic
       e_el_trial(1:6) = e_total(1:6) - ustatev(1:6) - ustatev(7:12)
-       ! Напряжение trial
       stress_trial = 0.0d0
       do i = 1, 6
        do j = 1, 6
@@ -201,106 +193,108 @@ c
        enddo
       enddo
       !Initial damage
-
-      D_sum_0 = ustatev(31) + ustatev(32) - ustatev(31) * ustatev(32)
-      ! Эффективное напряжение trial (учет поврежденности)
-      stress_trial = stress_trial / (1.0d0 - (D_sum_0))
-      ! Девиатор эффективного напряжения trial
+      
+      stress_trial = stress_trial 
       call compute_deviator(stress_trial, s_eff_trial)
-      ! Суммарные остаточные напряжения
+      D_sum_0 = ustatev(31) + ustatev(32) - ustatev(31) * ustatev(32)
+      s_eff_trial = s_eff_trial / (1.0d0 - (D_sum_0))
+      !Total back stress
       X_total(1:6) = ustatev(13:18) + ustatev(19:24) + ustatev(25:30)
-       ! Проверка условия пластичности
+      !Plastic surface
       call compute_yield_function(s_eff_trial, X_total, sigma_y0, 
      &                e_pl_eqv,
      &                K_Iso, m_Iso, phi_pl, norm_s_minus_X)
 
       plastic_loading = (phi_pl > 0.0d0)
-       ! ШАГ 2: Проверка, происходит ли пластическое деформирование
+
       if (.not. plastic_loading) then
-        ! УПРУГОЕ ПОВЕДЕНИЕ
+        !ELASTIC
             stress(1:6) = stress_trial(1:6)
         
-            ! Матрица упругих модулей
+            !Stiffness
             dsdePl = dsdePl * (1.0d0 - D_sum_0)
         
-            ! Обновление только деформаций ползучести (если есть ползучесть)
-            if (delta_t > 0.0d0) then
+            !Creep
+            if (dTime > 0.0d0) then
               !call solve_creep_only(params, ustatev, stress)
             endif
         
-            ! Сохранение state variables (только обновление ползучести)
-            ustatev(7:12) = ustatev(7:12)  ! e_cr обновится в solve_creep_only
-            ustatev(34) = ustatev(34)      ! e_cr_eqv обновится в solve_creep_only
+            ! state variables for creep
+            !ustatev(7:12) = ustatev(7:12)  ! e_cr обновится в solve_creep_only
+            !ustatev(34) = ustatev(34)      ! e_cr_eqv обновится в solve_creep_only
             converged = .true.
+            if (Time <= 0.0d0 .and. dTime <= 0.0d0) then
+                ustatev = 0.0d0
+                stress = 0.0d0
+                keycut = 0
+                return
+            endif
         else
-        ! ПЛАСТИЧЕСКОЕ ПОВЕДЕНИЕ - полное решение системы уравнений
-           
-              do NR_iter = 1, NR_maxiter
-                ! Вычисление невязок
+        !PLASTIC
+            ! initial values
+            !Variables (39):
+            !1-6: sigma_eff components
+            !7-12: e_pl components
+            !13-18: e_cr components
+            !19-24: X1 components
+            !25-30: X2 components
+            !31-36: X3 components
+            !37: D_pl
+            !38: D_cr
+            !39: Depseqv
+          vars(1:6) = stress_trial(1:6)  ! D_pl
+          vars(7:38) = ustatev(7:38)
+          vars(39)=0
+          do NR_iter = 1, NR_maxiter
+                ! residual
                 call material_residuals_wrapper(params, vars, F)
         
-                ! Проверка сходимости
+                ! Check
                 normF = sqrt(sum(F**2))
                 if (normF < tol) then
                   converged = .true.
                   exit
                 endif
 
-                ! Вычисление якобиана
+                ! Jacobi
                 call material_jacobian_wrapper(params, vars, Jac)
 
-                ! Решение линейной системы J*dx = -F
+                ! Solve J*dx = -F
                 call solve_linear_system(Jac, F, nvars)
 
-                ! Обновление переменных
-                vars = vars - F  ! F теперь содержит решение dx
+                ! Update
+                vars = vars - F  ! F here is dx
 
-                ! Ограничение переменных (например, поврежденность не может быть отрицательной)
+                !limitations
                 where (vars(1:2) < 0.0) vars(1:2) = 0.0  ! D_pl, D_cr
                 if (vars(5) < 0.0) vars(5) = 0.0  ! e_pl_eqv
                 if (vars(6) < 0.0) vars(6) = 0.0  ! e_cr_eqv
               enddo
       endif
       if (.not. converged) then
-        keycut = 1  ! Требовать сокращения шага
+        keycut = 1 
         return
       endif
 
-      ! Обновление state variables и напряжений
-      ustatev(1:6) = vars(13:18)   ! e_pl
-      ustatev(7:12) = vars(19:24)  ! e_cr
-      ustatev(13:18) = vars(25:30) ! X1
-      ustatev(19:24) = vars(31:36) ! X2
-      ustatev(25:30) = vars(37:42) ! X3
-      ustatev(31) = vars(1)        ! D_pl
-      ustatev(32) = vars(2)        ! D_cr
-      ustatev(33) = vars(5)        ! e_pl_eqv
-      ustatev(34) = vars(6)        ! e_cr_eqv
-      stress = vars(7:12)          ! sigma
+      !Update state variables 
+      ustatev(1:39) = F(1:39)   
+      stress = F(1:6)          
 
-      ! Вычисление матрицы касательных модулей
+
       call compute_tangent_matrix(params, vars, dsdePl)
 
-      ! Дополнительные расчеты
-      !Упругая энергия
       sedEl = 0.5d0*sum(stress * (e_total - vars(13:18) - vars(19:24))) 
-      ! Пластическая диссипация (требует дополнительного расчета)
       sedPl = 0.0d0  
-      epseq = vars(5) ! Эквивалентная пластическая деформация
-
-      keycut = 0  ! Успешное завершение
-
+      epseq = vars(5) 
+      if (Time <= 0.0d0 .and. dTime <= 0.0d0) then
+                ustatev = 0.0d0
+                stress = 0.0d0
+                keycut = 0
+                return
+      endif
+      keycut = 0 
       return
       end subroutine
 
-! Вспомогательные подпрограммы
-      subroutine solve_linear_system(J, F, n)
-      integer n
-      double precision J(n,n), F(n)
-      ! Решение системы линейных уравнений (LAPACK)
-      end subroutine
 
-      subroutine compute_tangent_matrix(params, vars, dsdePl)
-          double precision params(60), vars(42), dsdePl(6,6)
-      ! Вычисление матрицы касательных модулей
-      end subroutine
+

@@ -1,52 +1,63 @@
 import sympy as sp
 import os
 from sympy.utilities.codegen import codegen
+from sympy.printing.fortran import FCodePrinter
 
-# Define all symbolic variables with two-digit indexing
 def define_symbols():
-    # Scalar variables
-    D_pl, D_cr, R, dlambda, e_pl_eqv, e_cr_eqv = sp.symbols('var01 var02 var03 var04 var05 var06')
-    Delta_t = sp.symbols('par01')
+    # Create numbered variables (39 variables)
+    var_names = [f'v{i:02d}' for i in range(1, 40)]
+    variables = sp.symbols(' '.join(var_names))
     
-    # Tensor variables (6 components in Fortran notation)
-    sigma = sp.Matrix(sp.symbols('var07 var08 var09 var10 var11 var12'))
-    e_pl = sp.Matrix(sp.symbols('var13 var14 var15 var16 var17 var18'))
-    e_cr = sp.Matrix(sp.symbols('var19 var20 var21 var22 var23 var24'))
-    X1 = sp.Matrix(sp.symbols('var25 var26 var27 var28 var29 var30'))
-    X2 = sp.Matrix(sp.symbols('var31 var32 var33 var34 var35 var36'))
-    X3 = sp.Matrix(sp.symbols('var37 var38 var39 var40 var41 var42'))
+    # Create numbered parameters (58 parameters)
+    param_names = [f'p{i:02d}' for i in range(1, 59)]
+    parameters = sp.symbols(' '.join(param_names))
     
-    # Initial values
-    e_total = sp.Matrix(sp.symbols('par02 par03 par04 par05 par06 par07'))
-    e_pl_0 = sp.Matrix(sp.symbols('par08 par09 par10 par11 par12 par13'))
-    e_cr_0 = sp.Matrix(sp.symbols('par14 par15 par16 par17 par18 par19'))
-    X1_0 = sp.Matrix(sp.symbols('par20 par21 par22 par23 par24 par25'))
-    X2_0 = sp.Matrix(sp.symbols('par26 par27 par28 par29 par30 par31'))
-    X3_0 = sp.Matrix(sp.symbols('par32 par33 par34 par35 par36 par37'))
-    D_pl_0, D_cr_0, e_pl_eqv_0, e_cr_eqv_0 = sp.symbols('par38 par39 par40 par41')
+    # Split variables into their components (maintaining the same structure)
+    # sigma_eff (6 components) - v01 to v06
+    sigma_eff = sp.Matrix(variables[0:6])
+    # e_pl (6 components) - v07 to v12
+    e_pl = sp.Matrix(variables[6:12])
+    # e_cr (6 components) - v13 to v18
+    e_cr = sp.Matrix(variables[12:18])
+    # X1 (6 components) - v19 to v24
+    X1 = sp.Matrix(variables[18:24])
+    # X2 (6 components) - v25 to v30
+    X2 = sp.Matrix(variables[24:30])
+    # X3 (6 components) - v31 to v36
+    X3 = sp.Matrix(variables[30:36])
+    # Scalar variables - v37, v38, v39
+    D_pl, D_cr, Depseqv = variables[36:39]
     
-    # Material parameters
-    Young, nu = sp.symbols('par42 par43')  # Young's modulus and Poisson's ratio
-    sigma_y0, A, n, q, A_cr, r = sp.symbols('par44 par45 par46 par47 par48 par49')
-    C1_X, gamma1_X, C2_X, gamma2_X, C3_X, gamma3_X = sp.symbols('par50 par51 par52 par53 par54 par55')
-    K, m, S, s_val, k_val = sp.symbols('par56 par57 par58 par59 par60')
+    # Split parameters into their components
+    # e_total (6 components) - p01 to p06
+    e_total = sp.Matrix(parameters[0:6])
+    # e_pl_0 (6 components) - p07 to p12
+    e_pl_0 = sp.Matrix(parameters[6:12])
+    # e_cr_0 (6 components) - p13 to p18
+    e_cr_0 = sp.Matrix(parameters[12:18])
+    # X1_0 (6 components) - p19 to p24
+    X1_0 = sp.Matrix(parameters[18:24])
+    # X2_0 (6 components) - p25 to p30
+    X2_0 = sp.Matrix(parameters[24:30])
+    # X3_0 (6 components) - p31 to p36
+    X3_0 = sp.Matrix(parameters[30:36])
+    # Scalar initial values - p37, p38, p39
+    D_pl_0, D_cr_0, e_pl_eqv_0 = parameters[36:39]
+    # Material parameters - p40 to p58
+    Young, nu, sigma_y0, A_iso, B_iso, A_cr, B_cr, C1_X, gamma1_X, C2_X, gamma2_X, C3_X, gamma3_X, A_lem, B_lem, C_lem, A_dmg, B_dmg, dtime = parameters[39:58]
     
-    return (D_pl, D_cr, R, dlambda, e_pl_eqv, e_cr_eqv, Delta_t, 
-            sigma, e_pl, e_cr, X1, X2, X3,
-            e_total, e_pl_0, e_cr_0, X1_0, X2_0, X3_0, 
-            D_pl_0, D_cr_0, e_pl_eqv_0, e_cr_eqv_0,
-            Young, nu, sigma_y0, A, n, q, A_cr, r,
-            C1_X, C2_X, C3_X, gamma1_X, gamma2_X, gamma3_X,
-            K, m, S, s_val, k_val)
+    return (D_pl, D_cr, Depseqv, sigma_eff, e_pl, e_cr, X1, X2, X3, dtime, e_total, 
+            e_pl_0, e_cr_0, X1_0, X2_0, X3_0, D_pl_0, D_cr_0, e_pl_eqv_0,
+            Young, nu, sigma_y0, A_iso, B_iso, A_cr, B_cr,
+            C1_X, gamma1_X, C2_X, gamma2_X, C3_X, gamma3_X,
+            A_lem, B_lem, C_lem, A_dmg, B_dmg, variables, parameters)
 
 # Get all symbols
-(D_pl, D_cr, R, dlambda, e_pl_eqv, e_cr_eqv, Delta_t, 
- sigma, e_pl, e_cr, X1, X2, X3,
- e_total, e_pl_0, e_cr_0, X1_0, X2_0, X3_0, 
- D_pl_0, D_cr_0, e_pl_eqv_0, e_cr_eqv_0,
- Young, nu, sigma_y0, A, n, q, A_cr, r,
- C1_X,gamma1_X, C2_X,gamma2_X,  C3_X,  gamma3_X,
- K, m, S, s_val, k_val) = define_symbols()
+(D_pl, D_cr, Depseqv, sigma_eff, e_pl, e_cr, X1, X2, X3, dtime, e_total, 
+ e_pl_0, e_cr_0, X1_0, X2_0, X3_0, D_pl_0, D_cr_0, e_pl_eqv_0,
+ Young, nu, sigma_y0, A_iso, B_iso, A_cr, B_cr,
+ C1_X, gamma1_X, C2_X, gamma2_X, C3_X, gamma3_X,
+ A_lem, B_lem, C_lem, A_dmg, B_dmg, variables, parameters) = define_symbols()
 
 # Helper definitions
 def define_helpers():
@@ -74,9 +85,6 @@ def define_helpers():
         [0, 0, 0, 0, 0, mu]
     ])
     
-    # Effective stress tensor
-    sigma_eff = sigma / (1 - D)
-    
     # Deviator of effective stress
     s11, s22, s33, s12, s23, s13 = sigma_eff
     mean_stress = (s11 + s22 + s33) / 3
@@ -95,239 +103,123 @@ def define_helpers():
     # Equivalent von Mises stress
     J2 = (s_eff[0]**2 + s_eff[1]**2 + s_eff[2]**2 + 
           2*s_eff[3]**2 + 2*s_eff[4]**2 + 2*s_eff[5]**2) / 2
-    sigma_eff_eq = sp.sqrt(3 * J2)
+    sigma_eff_eqv = sp.sqrt(3 * J2)
     
-    # Energy release rate Y (corrected formula)
-    term1 = (2/3) * (1 + nu)
-    term2 = 3 * (1 - 2 * nu) * (sigma_H / sigma_eff_eq)**2 if sigma_eff_eq != 0 else 0
-    Y = (sigma_eff_eq**2 / (2 * E * (1 - D_pl)**2)) * (term1 + term2)
+    # Equivalent plastic strain
+    epsilon_pl_eqv = sp.sqrt((2/3) * (e_pl[0]**2 + e_pl[1]**2 + e_pl[2]**2 + 
+                                      2*e_pl[3]**2 + 2*e_pl[4]**2 + 2*e_pl[5]**2))
     
-    # For plastic flow direction
-    s_minus_X = s_eff - X
-    J2_X = (s_minus_X[0]**2 + s_minus_X[1]**2 + s_minus_X[2]**2 + 
-            2*s_minus_X[3]**2 + 2*s_minus_X[4]**2 + 2*s_minus_X[5]**2) / 2
-    sigma_eff_eq_X = sp.sqrt(3 * J2_X)
+    # Energy release rate Y 
+    term1 = (2/3) * (1 + v)
+    term2 = 3 * (1 - 2 * v) * (sigma_H / sigma_eff_eqv)**2 if sigma_eff_eqv != 0 else 0
+    Y = (sigma_eff_eqv**2 / (2 * E * (1 - D_pl)**2)) * (term1 + term2)
     
-    return (D, X, C_matrix, sigma_eff, s_eff, sigma_H, 
-            sigma_eff_eq, Y, s_minus_X, sigma_eff_eq_X)
+    return (D, X, C_matrix, s_eff, sigma_H, sigma_eff_eqv, epsilon_pl_eqv, Y)
 
-(D, X, C_matrix, sigma_eff, s_eff, sigma_H, 
- sigma_eff_eq, Y, s_minus_X, sigma_eff_eq_X) = define_helpers()
+(D, X, C_matrix, s_eff, sigma_H, sigma_eff_eqv, epsilon_pl_eqv, Y) = define_helpers()
 
 # Define residual equations
 def define_residuals():
-    # Equation 1: Elasticity
+    residuals = sp.Matrix([])
+    
+    # Equation 1: Elasticity - 6 components
     elastic_strain = e_total - e_pl - e_cr
-    residual1 = sigma - (1 - D) * C_matrix * elastic_strain
+    predicted_sigma_eff = C_matrix * elastic_strain
+    eq1 = sigma_eff - predicted_sigma_eff
+    residuals = residuals.col_join(eq1)
     
-    # Equation 2: Yield condition
-    residual2 = sp.Matrix([sigma_eff_eq_X - (sigma_y0 + R)])
+    # Equation 2: Plastic flow - 6 components
+    s_minus_X = s_eff - X
+    norm_s_minus_X = sp.sqrt((3/2) * (s_minus_X[0]**2 + s_minus_X[1]**2 + s_minus_X[2]**2 + 
+                                      2*s_minus_X[3]**2 + 2*s_minus_X[4]**2 + 2*s_minus_X[5]**2))
+    # Avoid division by zero
+    direction = (3/2) * s_minus_X / (norm_s_minus_X + 1e-16)
+    eq2 = e_pl - e_pl_0 - Depseqv * direction
+    residuals = residuals.col_join(eq2)
     
-    # Equation 3: Creep integration (Modified Norton)
-    creep_rate = (3/2) * A * sigma_eff_eq**(n-1) * s_eff * e_cr_eqv**q
-    residual3 = e_cr - e_cr_0 - Delta_t * creep_rate
+    # Equation 3: Creep - 6 components
+    eq3 = e_cr - e_cr_0 - dtime * (3/2) * A_cr * (sigma_eff_eqv)**(B_cr-1) * s_eff
+    residuals = residuals.col_join(eq3)
     
-    # Equation 4: Equivalent creep strain integration (Modified Norton)
-    creep_eqv_rate = A * sigma_eff_eq**n * e_cr_eqv**q
-    residual4 = sp.Matrix([e_cr_eqv - e_cr_eqv_0 - Delta_t * creep_eqv_rate])
-    
-    # Equation 5: Plastic damage integration
-    delta_alpha = e_pl_eqv - e_pl_eqv_0
-    plastic_damage_rate = (Y/S)**s_val * (delta_alpha/Delta_t) * (1 - D)**(-k_val)
-    residual5 = sp.Matrix([D_pl - D_pl_0 - Delta_t * plastic_damage_rate])
-    
-    # Equation 6: Creep damage integration
-    creep_damage_rate = A_cr * sigma_eff_eq**r
-    residual6 = sp.Matrix([D_cr - D_cr_0 - Delta_t * creep_damage_rate])
-    
-    # Equations 7-9: Kinematic hardening (Chaboche, 3 components)
+    # Equations 4-6: Kinematic hardening - 18 components
     delta_e_pl = e_pl - e_pl_0
-    delta_e_pl_eqv = e_pl_eqv - e_pl_eqv_0
+    delta_e_pl_eqv = epsilon_pl_eqv - e_pl_eqv_0
     
-    residual7 = X1 - X1_0 - (2/3) * C1_X * delta_e_pl + gamma1_X * X1 * delta_e_pl_eqv
-    residual8 = X2 - X2_0 - (2/3) * C2_X * delta_e_pl + gamma2_X * X2 * delta_e_pl_eqv
-    residual9 = X3 - X3_0 - (2/3) * C3_X * delta_e_pl + gamma3_X * X3 * delta_e_pl_eqv
+    eq4 = X1 - X1_0 - (2/3)*C1_X * delta_e_pl + gamma1_X * X1 * delta_e_pl_eqv
+    eq5 = X2 - X2_0 - (2/3)*C2_X * delta_e_pl + gamma2_X * X2 * delta_e_pl_eqv
+    eq6 = X3 - X3_0 - (2/3)*C3_X * delta_e_pl + gamma3_X * X3 * delta_e_pl_eqv
     
-    # Equation 10: Isotropic hardening (Power law)
-    residual10 = sp.Matrix([R - K * e_pl_eqv**m])
+    residuals = residuals.col_join(eq4)
+    residuals = residuals.col_join(eq5)
+    residuals = residuals.col_join(eq6)
     
-    # Equation 11: Plastic flow definition
-    if sigma_eff_eq_X != 0:
-        n_flow = (3/2) * s_minus_X / sigma_eff_eq_X
-    else:
-        n_flow = sp.Matrix([0, 0, 0, 0, 0, 0])
-    residual11 = e_pl - e_pl_0 - dlambda * n_flow
+    # Equation 7: Yield condition - 1 component
+    eq7 = norm_s_minus_X - (sigma_y0 + A_iso * (epsilon_pl_eqv)**B_iso)
+    residuals = residuals.col_join(sp.Matrix([eq7]))
     
-    # Equation 12: Hardening parameter relation
-    residual12 = sp.Matrix([e_pl_eqv - e_pl_eqv_0 - dlambda])
+    # Equation 8: Plastic damage - 1 component
+    eq8 = D_pl - D_pl_0 - dtime * (Y/A_lem)**B_lem * (Depseqv/dtime) * (1-D)**(-C_lem)
+    residuals = residuals.col_join(sp.Matrix([eq8]))
     
-    # Combine all residuals
-    residuals = sp.Matrix.vstack(
-        residual1,      # 6 equations (elasticity)
-        residual2,      # 1 equation (yield)
-        residual3,      # 6 equations (creep tensor)
-        residual4,      # 1 equation (creep eqv)
-        residual5,      # 1 equation (plastic damage)
-        residual6,      # 1 equation (creep damage)
-        residual7,      # 6 equations (X1)
-        residual8,      # 6 equations (X2)
-        residual9,      # 6 equations (X3)
-        residual10,     # 1 equation (isotropic)
-        residual11,     # 6 equations (plastic flow)
-        residual12      # 1 equation (hardening param)
-    )  # Total: 6+1+6+1+1+1+6+6+6+1+6+1 = 42 equations
+    # Equation 9: Creep damage - 1 component
+    eq9 = D_cr - D_cr_0 - dtime * A_dmg * (sigma_eff_eqv)**B_dmg
+    residuals = residuals.col_join(sp.Matrix([eq9]))
     
     return residuals
 
 residuals = define_residuals()
 
-# Define variable vector (42 variables)
-variables = sp.Matrix([
-    # Scalar variables (6)
-    D_pl, D_cr, R, dlambda, e_pl_eqv, e_cr_eqv,
-    # Tensor variables (36)
-    sigma[0], sigma[1], sigma[2], sigma[3], sigma[4], sigma[5],
-    e_pl[0], e_pl[1], e_pl[2], e_pl[3], e_pl[4], e_pl[5],
-    e_cr[0], e_cr[1], e_cr[2], e_cr[3], e_cr[4], e_cr[5],
-    X1[0], X1[1], X1[2], X1[3], X1[4], X1[5],
-    X2[0], X2[1], X2[2], X2[3], X2[4], X2[5],
-    X3[0], X3[1], X3[2], X3[3], X3[4], X3[5]
-])
-
-# Parameters to pass to function (60 parameters)
-parameters = sp.Matrix([
-    Delta_t,
-    e_total[0], e_total[1], e_total[2], e_total[3], e_total[4], e_total[5],
-    e_pl_0[0], e_pl_0[1], e_pl_0[2], e_pl_0[3], e_pl_0[4], e_pl_0[5],
-    e_cr_0[0], e_cr_0[1], e_cr_0[2], e_cr_0[3], e_cr_0[4], e_cr_0[5],
-    X1_0[0], X1_0[1], X1_0[2], X1_0[3], X1_0[4], X1_0[5],
-    X2_0[0], X2_0[1], X2_0[2], X2_0[3], X2_0[4], X2_0[5],
-    X3_0[0], X3_0[1], X3_0[2], X3_0[3], X3_0[4], X3_0[5],
-    D_pl_0, D_cr_0, e_pl_eqv_0, e_cr_eqv_0,
-    Young, nu, sigma_y0, A, n, q, A_cr, r,
-    C1_X,gamma1_X, C2_X, gamma2_X, C3_X, gamma3_X,
-    K, m, S, s_val, k_val
-])
-
 # Calculate Jacobian
 print("Calculating Jacobian...")
 jacobian = residuals.jacobian(variables)
-
-# Generate Fortran code with two-digit names
-print("Generating Fortran code...")
 
 # Create mapping files to document the variable names
 def create_mapping_files():
     # Variable mapping
     var_mapping = [
-        "Variables (42 total):",
-        "01: D_pl (plastic damage)",
-        "02: D_cr (creep damage)",
-        "03: R (isotropic hardening)",
-        "04: dlambda (plastic multiplier)",
-        "05: e_pl_eqv (equivalent plastic strain)",
-        "06: e_cr_eqv (equivalent creep strain)",
-        "07: sigma_1 (stress tensor component 1)",
-        "08: sigma_2 (stress tensor component 2)",
-        "09: sigma_3 (stress tensor component 3)",
-        "10: sigma_4 (stress tensor component 4)",
-        "11: sigma_5 (stress tensor component 5)",
-        "12: sigma_6 (stress tensor component 6)",
-        "13: e_pl_1 (plastic strain tensor component 1)",
-        "14: e_pl_2 (plastic strain tensor component 2)",
-        "15: e_pl_3 (plastic strain tensor component 3)",
-        "16: e_pl_4 (plastic strain tensor component 4)",
-        "17: e_pl_5 (plastic strain tensor component 5)",
-        "18: e_pl_6 (plastic strain tensor component 6)",
-        "19: e_cr_1 (creep strain tensor component 1)",
-        "20: e_cr_2 (creep strain tensor component 2)",
-        "21: e_cr_3 (creep strain tensor component 3)",
-        "22: e_cr_4 (creep strain tensor component 4)",
-        "23: e_cr_5 (creep strain tensor component 5)",
-        "24: e_cr_6 (creep strain tensor component 6)",
-        "25: X1_1 (backstress tensor 1 component 1)",
-        "26: X1_2 (backstress tensor 1 component 2)",
-        "27: X1_3 (backstress tensor 1 component 3)",
-        "28: X1_4 (backstress tensor 1 component 4)",
-        "29: X1_5 (backstress tensor 1 component 5)",
-        "30: X1_6 (backstress tensor 1 component 6)",
-        "31: X2_1 (backstress tensor 2 component 1)",
-        "32: X2_2 (backstress tensor 2 component 2)",
-        "33: X2_3 (backstress tensor 2 component 3)",
-        "34: X2_4 (backstress tensor 2 component 4)",
-        "35: X2_5 (backstress tensor 2 component 5)",
-        "36: X2_6 (backstress tensor 2 component 6)",
-        "37: X3_1 (backstress tensor 3 component 1)",
-        "38: X3_2 (backstress tensor 3 component 2)",
-        "39: X3_3 (backstress tensor 3 component 3)",
-        "40: X3_4 (backstress tensor 3 component 4)",
-        "41: X3_5 (backstress tensor 3 component 5)",
-        "42: X3_6 (backstress tensor 3 component 6)"
+        "Variables (39):",
+        "1-6: sigma_eff components",
+        "7-12: e_pl components", 
+        "13-18: e_cr components",
+        "19-24: X1 components",
+        "25-30: X2 components",
+        "31-36: X3 components",
+        "37: D_pl",
+        "38: D_cr", 
+        "39: Depseqv"
     ]
     
     # Parameter mapping
     param_mapping = [
-        "Parameters (60 total):"
-        "01: Delta_t (time increment)",
-        "02: e_total_1 (total strain tensor component 1)",
-        "03: e_total_2 (total strain tensor component 2)",
-        "04: e_total_3 (total strain tensor component 3)",
-        "05: e_total_4 (total strain tensor component 4)",
-        "06: e_total_5 (total strain tensor component 5)",
-        "07: e_total_6 (total strain tensor component 6)",
-        "08: e_pl_0_1 (initial plastic strain component 1)",
-        "09: e_pl_0_2 (initial plastic strain component 2)",
-        "10: e_pl_0_3 (initial plastic strain component 3)",
-        "11: e_pl_0_4 (initial plastic strain component 4)",
-        "12: e_pl_0_5 (initial plastic strain component 5)",
-        "13: e_pl_0_6 (initial plastic strain component 6)",
-        "14: e_cr_0_1 (initial creep strain component 1)",
-        "15: e_cr_0_2 (initial creep strain component 2)",
-        "16: e_cr_0_3 (initial creep strain component 3)",
-        "17: e_cr_0_4 (initial creep strain component 4)",
-        "18: e_cr_0_5 (initial creep strain component 5)",
-        "19: e_cr_0_6 (initial creep strain component 6)",
-        "20: X1_0_1 (initial backstress 1 component 1)",
-        "21: X1_0_2 (initial backstress 1 component 2)",
-        "22: X1_0_3 (initial backstress 1 component 3)",
-        "23: X1_0_4 (initial backstress 1 component 4)",
-        "24: X1_0_5 (initial backstress 1 component 5)",
-        "25: X1_0_6 (initial backstress 1 component 6)",
-        "26: X2_0_1 (initial backstress 2 component 1)",
-        "27: X2_0_2 (initial backstress 2 component 2)",
-        "28: X2_0_3 (initial backstress 2 component 3)",
-        "29: X2_0_4 (initial backstress 2 component 4)",
-        "30: X2_0_5 (initial backstress 2 component 5)",
-        "31: X2_0_6 (initial backstress 2 component 6)",
-        "32: X3_0_1 (initial backstress 3 component 1)",
-        "33: X3_0_2 (initial backstress 3 component 2)",
-        "34: X3_0_3 (initial backstress 3 component 3)",
-        "35: X3_0_4 (initial backstress 3 component 4)",
-        "36: X3_0_5 (initial backstress 3 component 5)",
-        "37: X3_0_6 (initial backstress 3 component 6)",
-        "38: D_pl_0 (initial plastic damage)",
-        "39: D_cr_0 (initial creep damage)",
-        "40: e_pl_eqv_0 (initial equivalent plastic strain)",
-        "41: e_cr_eqv_0 (initial equivalent creep strain)",
-        "42: Young (Young's modulus)",
-        "43: nu (Poisson's ratio)",
-        "44: sigma_y0 (initial yield stress)",
-        "45: A (creep coefficient)",
-        "46: n (creep exponent)",
-        "47: q (creep exponent)",
-        "48: A_cr (creep damage coefficient)",
-        "49: r (creep damage exponent)",
-        "50: C1_X (kinematic hardening modulus 1)",
-        "51: gamma1_X (kinematic hardening parameter 1)",
-        "52: C2_X (kinematic hardening modulus 2)",
-        "53: gamma2_X (kinematic hardening parameter 2)",
-        "54: C3_X (kinematic hardening modulus 3)",
-        "55: gamma3_X (kinematic hardening parameter 3)",
-        "56: K (isotropic hardening coefficient)",
-        "57: m (isotropic hardening exponent)",
-        "58: S (damage parameter)",
-        "59: s (damage exponent)",
-        "60: k (damage exponent)"
+        "Parameters (58):",
+        "1-6: e_total components",
+        "7-12: e_pl_0 components",
+        "13-18: e_cr_0 components",
+        "19-24: X1_0 components",
+        "25-30: X2_0 components",
+        "31-36: X3_0 components",
+        "37: D_pl_0",
+        "38: D_cr_0",
+        "39: e_pl_eqv_0",
+        "40: Young",
+        "41: nu",
+        "42: sigma_y0",
+        "43: A_iso",
+        "44: B_iso",
+        "45: A_cr",
+        "46: B_cr",
+        "47: C1_X",
+        "48: gamma1_X",
+        "49: C2_X",
+        "50: gamma2_X",
+        "51: C3_X",
+        "52: gamma3_X",
+        "53: A_lem",
+        "54: B_lem",
+        "55: C_lem",
+        "56: A_dmg",
+        "57: B_dmg",
+        "58: dtime"
     ]
     
     with open('variable_mapping.txt', 'w') as f:
@@ -341,8 +233,10 @@ def create_mapping_files():
 create_mapping_files()
 
 # Generate the Fortran code
+print("Generating Fortran code...")
+
+# Generate residuals code
 try:
-    # Generate residuals code
     residuals_code = codegen(
         [('material_residuals', residuals)], 
         'f95', 
@@ -359,8 +253,8 @@ try:
 except Exception as e:
     print(f"Error generating residuals code: {e}")
 
+# Generate Jacobian code
 try:
-    # Generate Jacobian code  
     jacobian_code = codegen(
         [('material_jacobian', jacobian)],
         'f95',

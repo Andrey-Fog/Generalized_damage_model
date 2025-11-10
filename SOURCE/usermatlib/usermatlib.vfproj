@@ -56,9 +56,9 @@
 		<Filter Name="Source Files" Filter="f90;for;f;fpp;ftn;def;odl;idl">
 			<File RelativePath=".\functions.f90">
 			</File>
-			<File RelativePath=".\user_mat_jacobian.f90">
+			<File RelativePath="..\Jacobi_generator\user_mat_jacobian.f90">
 			</File>
-			<File RelativePath=".\user_mat_residuals.f90">
+			<File RelativePath="..\Jacobi_generator\user_mat_residuals.f90">
 			</File>
 			<File RelativePath=".\usermat.F">
 			</File>
